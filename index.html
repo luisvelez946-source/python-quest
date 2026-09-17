@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Quest</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 90%; max-width: 600px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .badge { background: #38bdf8; color: #0f172a; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .options-grid button { width: 100%; padding: 10px; margin: 5px 0; background: #334155; color: white; border: none; border-radius: 5px; cursor: pointer; text-align: left; }
+        .options-grid button:hover { background: #475569; }
+        .feedback { margin-top: 10px; padding: 10px; border-radius: 5px; display: none; font-weight: bold; }
+        .success { background: #15803d; color: white; }
+        .error { background: #b91c1c; color: white; }
+        .next-btn { background: #22c55e; width: 100%; padding: 10px; margin-top: 10px; display: none; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; color: white; }
+        .code-block { background: #020617; padding: 10px; border-radius: 5px; color: #38bdf8; overflow-x: auto; }
+        .tip-box { background: #334155; padding: 8px; border-left: 4px solid #38bdf8; margin-top: 8px; font-size: 13px; }
+        .level-select { width: 100%; padding: 8px; margin-bottom: 15px; background: #334155; color: white; border: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 Python Quest</h1>
+    
+    <label for="select-level"><strong>Selecciona un Nivel:</strong></label>
+    <select id="select-level" class="level-select" onchange="changeLevel(this.value)">
+        <option value="2">Nivel 2: Fábrica Alpina</option>
+        <option value="3">Nivel 3: Fintech TuCuenta</option>
+        <option value="4">Nivel 4: Logística E-commerce</option>
+    </select>
+
+    <div class="card">
+        <span id="badge" class="badge"></span>
+        <h2 id="title" style="margin: 10px 0;"></h2>
+        <div id="content-area"></div>
+        <div id="options" class="options-grid"></div>
+        <div id="feedback" class="feedback"></div>
+        <button id="btn-next" class="next-btn" onclick="nextChallenge()">SIGUIENTE RETO ➔</button>
+    </div>
+</div>
+
+<script>
+    // Objeto global donde se cargan los niveles
+    const LEVEL_CONTENT = {};
+</script>
+
+<!-- Cargar los archivos locales guardados en Documentos -->
+<script src="nivel2.js"></script>
+<script src="nivel3.js"></script>
+<script src="nivel4.js"></script>
+
+<script>
+    let currentLevel = 2;
+    let currentIndex = 0;
+
+    function loadLevel(levelNum) {
+        currentLevel = levelNum;
+        currentIndex = 0;
+        renderChallenge();
+    }
+
+    function changeLevel(levelNum) {
+        loadLevel(parseInt(levelNum));
+    }
+
+    function renderChallenge() {
+        const levelData = LEVEL_CONTENT[currentLevel];
+        if (!levelData || !levelData.challenges[currentIndex]) {
+            document.querySelector(".card").innerHTML = `
+                <h2 style="color: #22c55e; text-align: center;">🎉 ¡Nivel Completado!</h2>
+                <p style="text-align: center;">Has finalizado con éxito todos los ejercicios de este módulo.</p>
+            `;
+            return;
+        }
+
+        const item = levelData.challenges[currentIndex];
+        document.getElementById("badge").textContent = `${item.label} - ${item.id}`;
+        document.getElementById("title").textContent = item.title;
+        
+        const contentArea = document.getElementById("content-area");
+        const optionsBox = document.getElementById("options");
+        const feedbackEl = document.getElementById("feedback");
+        const nextBtn = document.getElementById("btn-next");
+
+        feedbackEl.style.display = "none";
+        nextBtn.style.display = "none";
+        optionsBox.innerHTML = "";
+
+        if (item.type === "lesson") {
+            contentArea.innerHTML = item.content;
+            nextBtn.style.display = "block";
+        } else {
+            contentArea.innerHTML = `<p>${item.question}</p>`;
+            item.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.textContent = `${String.fromCharCode(65 + idx)}) ${opt}`;
+                btn.onclick = () => checkAnswer(idx);
+                optionsBox.appendChild(btn);
+            });
+        }
+    }
+
+    function checkAnswer(selectedIndex) {
+        const item = LEVEL_CONTENT[currentLevel].challenges[currentIndex];
+        const feedbackEl = document.getElementById("feedback");
+        
+        feedbackEl.style.display = "block";
+
+        if (selectedIndex === item.correct) {
+            feedbackEl.className = "feedback success";
+            feedbackEl.textContent = item.correctFeedback;
+            document.getElementById("btn-next").style.display = "block";
+        } else {
+            feedbackEl.className = "feedback error";
+            feedbackEl.textContent = item.incorrectFeedback;
+        }
+    }
+
+    function nextChallenge() {
+        currentIndex++;
+        renderChallenge();
+    }
+
+    // Arrancar con el Nivel 2 al abrir
+    loadLevel(2);
+</script>
+
+</body>
+</html>
