@@ -1,0 +1,639 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #080b12;
+    --surface: #10151f;
+    --surface-light: #171e2b;
+
+    --primary: #7c5cff;
+    --primary-light: #9d86ff;
+
+    --text: #f4f5f7;
+    --text-secondary: #9da5b4;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --success: #38d39f;
+}
+
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(124, 92, 255, 0.15),
+            transparent 35%
+        ),
+        var(--background);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+
+.app {
+    min-height: 100vh;
+}
+
+
+.screen {
+    min-height: 100vh;
+
+    display: none;
+
+    animation: fadeIn 0.5s ease;
+}
+
+
+.screen.active {
+    display: block;
+}
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   PANTALLA DE INICIO
+========================= */
+
+#home-screen {
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+}
+
+
+#home-screen.active {
+    display: flex;
+}
+
+
+.hero {
+    width: min(800px, 100%);
+
+    text-align: center;
+
+    padding: 60px 30px;
+}
+
+
+.python-icon {
+    font-size: 70px;
+
+    margin-bottom: 25px;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+}
+
+
+.eyebrow {
+    color: var(--primary-light);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+
+.hero h1 {
+    font-size: clamp(50px, 10vw, 100px);
+
+    line-height: 0.95;
+
+    font-weight: 900;
+
+    letter-spacing: -4px;
+
+    margin-bottom: 30px;
+}
+
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+
+.subtitle {
+    max-width: 600px;
+
+    margin: 0 auto 40px;
+
+    color: var(--text-secondary);
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   BOTONES
+========================= */
+
+.primary-button {
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    padding: 16px 28px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        background 0.2s;
+}
+
+
+.primary-button span {
+    margin-left: 10px;
+
+    font-size: 18px;
+}
+
+
+.primary-button:hover {
+
+    transform: translateY(-3px);
+
+    background: var(--primary-light);
+
+    box-shadow:
+        0 10px 30px rgba(124, 92, 255, 0.3);
+}
+
+
+/* =========================
+   CARACTERÍSTICAS
+========================= */
+
+.features {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 50px;
+
+    margin-top: 70px;
+}
+
+
+.feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+}
+
+
+.feature span {
+    font-size: 20px;
+}
+
+
+/* =========================
+   BARRA SUPERIOR
+========================= */
+
+.top-bar {
+
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 50px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: rgba(8, 11, 18, 0.8);
+
+    backdrop-filter: blur(10px);
+}
+
+
+.logo {
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.player-xp {
+
+    color: #ffd76a;
+
+    font-weight: 700;
+}
+
+
+.profile-button {
+
+    border: 1px solid var(--border);
+
+    background: var(--surface-light);
+
+    color: var(--text);
+
+    padding: 9px 13px;
+
+    border-radius: 9px;
+
+    font: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.profile-button:hover {
+
+    border-color: var(--primary);
+}
+
+
+.account-menu {
+
+    position: fixed;
+
+    z-index: 20;
+
+    top: 78px;
+
+    right: 50px;
+
+    width: min(300px, calc(100vw - 40px));
+
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: #171e2b;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+
+.account-menu-label {
+
+    margin-bottom: 7px;
+
+    color: var(--primary-light);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.account-menu-help {
+
+    margin: 10px 0 16px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.logout-button {
+
+    width: 100%;
+
+    border: 1px solid rgba(255, 111, 124, 0.55);
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #ff9aa5;
+
+    padding: 10px;
+
+    font: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.logout-button:hover {
+
+    background: rgba(255, 111, 124, 0.12);
+}
+
+
+/* =========================
+   NIVELES
+========================= */
+
+.levels-container {
+
+    width: min(1150px, 90%);
+
+    margin: 0 auto;
+
+    padding: 70px 0;
+}
+
+
+.levels-header {
+
+    margin-bottom: 50px;
+}
+
+
+.levels-header h2 {
+
+    font-size: clamp(32px, 5vw, 55px);
+
+    line-height: 1.1;
+
+    margin-bottom: 15px;
+}
+
+
+.levels-header h2 span {
+
+    color: var(--primary);
+}
+
+
+.levels-header > p:last-child {
+
+    color: var(--text-secondary);
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.levels-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+
+.level-card {
+
+    position: relative;
+
+    padding: 30px;
+
+    min-height: 300px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.04),
+            rgba(255,255,255,0.01)
+        );
+
+    transition:
+        transform 0.25s,
+        border-color 0.25s;
+}
+
+
+.level-card.unlocked {
+
+    border-color:
+        rgba(124, 92, 255, 0.4);
+}
+
+
+.level-card.unlocked:hover {
+
+    transform: translateY(-5px);
+
+    border-color: var(--primary);
+}
+
+
+.level-card.locked {
+
+    opacity: 0.45;
+}
+
+
+.level-number {
+
+    position: absolute;
+
+    top: 25px;
+
+    right: 30px;
+
+    font-size: 12px;
+
+    color: var(--text-secondary);
+
+    font-weight: 700;
+}
+
+
+.level-icon {
+
+    font-size: 38px;
+
+    margin-bottom: 25px;
+}
+
+
+.level-card h3 {
+
+    font-size: 24px;
+
+    margin-bottom: 12px;
+}
+
+
+.level-card p {
+
+    color: var(--text-secondary);
+
+    line-height: 1.6;
+
+    max-width: 420px;
+}
+
+
+.level-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 35px;
+
+    color: var(--primary-light);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.level-button {
+
+    border: 1px solid var(--primary);
+
+    background: transparent;
+
+    color: var(--primary-light);
+
+    padding: 10px 16px;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.level-button:hover {
+
+    background: var(--primary);
+
+    color: white;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+
+    .top-bar {
+
+        padding: 0 20px;
+    }
+
+    .account-menu {
+
+        right: 20px;
+    }
+
+
+    .levels-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .features {
+
+        gap: 20px;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+
+    .hero h1 {
+
+        letter-spacing: -2px;
+    }
+
+}
