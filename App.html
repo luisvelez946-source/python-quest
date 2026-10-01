@@ -1,0 +1,156 @@
+<script>
+function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+    document.getElementById(screenId)?.classList.add("active");
+}
+function updatePlayerDisplays() {
+    const profile = Game.getActiveProfile();
+    const name = profile?.name || "Perfil";
+    document.querySelectorAll(".xp-value").forEach(element => {
+        element.textContent = Game.getXP();
+    });
+    document.querySelectorAll(".current-player-name").forEach(element => {
+        element.textContent = name;
+    });
+}
+
+function closeAccountMenu() {
+    document.getElementById("account-menu").hidden = true;
+}
+
+function toggleAccountMenu() {
+    const menu = document.getElementById("account-menu");
+    const profile = Game.getActiveProfile();
+
+    document.getElementById("account-menu-name").textContent = profile?.name || "Perfil";
+    menu.hidden = !menu.hidden;
+}
+
+function logout() {
+    closeAccountMenu();
+    Sync.clearSession();
+    Game.endInstitutionalSession();
+
+    document.getElementById("login-form").reset();
+    document.getElementById("register-form").reset();
+    document.getElementById("auth-error").hidden = true;
+    showScreen("profile-screen");
+}
+function openLevels() {
+    renderLevels();
+    showScreen("levels-screen");
+}
+function enterWithProfile(profileId) {
+    if (Game.selectProfile(profileId)) {
+        updatePlayerDisplays();
+        showScreen("home-screen");
+    }
+}
+function renderProfiles() {
+    const list = document.getElementById("profiles-list");
+    const profiles = Game.listProfiles();
+    list.innerHTML = profiles.map(profile => `
+        <button class="profile-choice" type="button" data-profile-id="${profile.id}">
+            <span class="profile-choice-icon">👤</span>
+            <span>
+                <strong>${escapeProfileText(profile.name)}</strong>
+                <small>${profile.state.xp} XP · ${profile.state.completedLevels.length} nivel(es) completado(s)</small>
+            </span>
+        </button>
+    `).join("");
+    list.querySelectorAll(".profile-choice").forEach(button => {
+        button.addEventListener("click", () => enterWithProfile(button.dataset.profileId));
+    });
+}
+function escapeProfileText(text) {
+    const container = document.createElement("div");
+    container.textContent = text;
+    return container.innerHTML;
+}
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("start-button").addEventListener("click", openLevels);
+    document.getElementById("back-levels-button").addEventListener("click", openLevels);
+    document.querySelectorAll(".profile-button").forEach(button => {
+        button.addEventListener("click", event => {
+            event.stopPropagation();
+
+            if (Game.isInstitutionalSession()) {
+                toggleAccountMenu();
+                return;
+            }
+            renderProfiles();
+            showScreen("profile-screen");
+        });
+    });
+
+    document.getElementById("logout-button").addEventListener("click", logout);
+
+    document.addEventListener("click", event => {
+        if (!event.target.closest("#account-menu")) {
+            closeAccountMenu();
+        }
+    });
+    document.getElementById("new-profile-form").addEventListener("submit", event => {
+        event.preventDefault();
+        const input = document.getElementById("new-profile-name");
+        const profile = Game.createProfile(input.value);
+        if (profile) {
+            input.value = "";
+            updatePlayerDisplays();
+            showScreen("home-screen");
+        }
+    });
+    document.getElementById("login-form").addEventListener("submit", async event => {
+        event.preventDefault();
+        await authenticateStudent(
+            () => Sync.login(
+                document.getElementById("login-code").value,
+                document.getElementById("login-pin").value
+            )
+        );
+    });
+    document.getElementById("register-form").addEventListener("submit", async event => {
+        event.preventDefault();
+        await authenticateStudent(
+            () => Sync.register(
+                document.getElementById("register-name").value,
+                document.getElementById("register-code").value,
+                document.getElementById("register-pin").value
+            )
+        );
+    });
+    document.addEventListener("game:changed", event => {
+        updatePlayerDisplays();
+        Sync.saveProgress(event.detail);
+    });
+    initializeApplication();
+});
+async function initializeApplication() {
+    if (!Sync.isServerEnvironment()) {
+        updatePlayerDisplays();
+        renderProfiles();
+        return;
+    }
+    document.getElementById("auth-panel").hidden = false;
+    document.getElementById("profiles-list").hidden = true;
+    document.getElementById("new-profile-form").hidden = true;
+    document.querySelector(".profile-panel .subtitle").textContent =
+        "Inicia sesión con tu código estudiantil y tu PIN personal.";
+}
+async function authenticateStudent(request) {
+    const errorBox = document.getElementById("auth-error");
+    errorBox.hidden = true;
+    try {
+        const session = await request();
+        Game.startInstitutionalSession(session.user, session.state);
+        updatePlayerDisplays();
+        showScreen("home-screen");
+    } catch (error) {
+        errorBox.textContent = error.message || "No se pudo iniciar sesión.";
+        errorBox.hidden = false;
+    }
+}
+
+</script>
