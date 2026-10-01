@@ -1,0 +1,998 @@
+.challenge-layout {
+
+    width: min(1000px, 90%);
+
+    margin: 0 auto;
+
+    padding: 55px 0 100px;
+}
+
+
+/* ==============================
+   CABECERA DE MISIÓN
+============================== */
+
+.mission-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 60px;
+
+    align-items: flex-end;
+
+    margin-bottom: 35px;
+}
+
+
+.mission-header h2 {
+
+    font-size: clamp(
+        32px,
+        5vw,
+        48px
+    );
+
+    margin-bottom: 10px;
+}
+
+
+.mission-description {
+
+    color:
+        var(--text-secondary);
+
+    line-height: 1.6;
+
+    max-width: 600px;
+}
+
+
+/* ==============================
+   PROGRESO
+============================== */
+
+.mission-progress {
+
+    width: 250px;
+
+    flex-shrink: 0;
+}
+
+
+.progress-text {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color:
+        var(--text-secondary);
+
+    margin-bottom: 9px;
+}
+
+
+.progress-track {
+
+    height: 7px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border-radius: 100px;
+
+    overflow: hidden;
+}
+
+
+.progress-bar {
+
+    width: 0;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--primary-light)
+        );
+
+    transition:
+        width 0.4s ease;
+}
+
+
+/* ==============================
+   TARJETA DE RETO
+============================== */
+
+.challenge-card {
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.045),
+            rgba(255,255,255,0.015)
+        );
+
+    border-radius: 20px;
+
+    padding: 40px;
+
+    min-height: 430px;
+}
+
+
+.challenge-header {
+
+    display: flex;
+
+    gap: 18px;
+
+    align-items: center;
+
+    padding-bottom: 25px;
+
+    margin-bottom: 30px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+
+.challenge-icon {
+
+    width: 55px;
+
+    height: 55px;
+
+    display: grid;
+
+    place-items: center;
+
+    font-size: 26px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(
+            124,
+            92,
+            255,
+            0.12
+        );
+}
+
+
+.challenge-label {
+
+    display: block;
+
+    color:
+        var(--primary-light);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 6px;
+}
+
+
+.challenge-header h3 {
+
+    font-size: 25px;
+}
+
+
+/* ==============================
+   CONTENIDO
+============================== */
+
+.lesson-content {
+
+    color:
+        var(--text-secondary);
+
+    line-height: 1.8;
+
+    font-size: 16px;
+}
+
+
+.lesson-content p {
+
+    margin-bottom: 20px;
+}
+
+
+.challenge-question {
+
+    font-size: 20px;
+
+    line-height: 1.6;
+
+    max-width: 800px;
+
+    margin-bottom: 25px;
+}
+
+
+/* ==============================
+   CÓDIGO
+============================== */
+
+.code-block {
+
+    margin: 25px 0;
+
+    padding: 22px;
+
+    overflow-x: auto;
+
+    background: #070a10;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    border-radius: 12px;
+
+    font-family:
+        "JetBrains Mono",
+        Consolas,
+        monospace;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+    color: #d7dbeb;
+
+    /* Conserva cada espacio y tabulación: en Python son sintaxis. */
+    white-space: pre;
+    tab-size: 4;
+}
+
+
+.code-block code,
+.code-piece code,
+.builder-line code {
+    font-family: inherit;
+    white-space: inherit;
+    tab-size: inherit;
+}
+
+
+/* ==============================
+   CONCEPTOS
+============================== */
+
+.concept-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin: 30px 0;
+}
+
+
+.concept-item {
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    border:
+        1px solid
+        var(--border);
+}
+
+
+.concept-item strong {
+
+    display: block;
+
+    color:
+        var(--text);
+
+    margin-bottom: 10px;
+
+    font-family:
+        Consolas,
+        monospace;
+}
+
+
+.concept-item span {
+
+    color:
+        var(--primary-light);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.tip-box {
+
+    padding: 18px 20px;
+
+    margin-top: 25px;
+
+    border-left:
+        3px solid
+        var(--primary);
+
+    background:
+        rgba(
+            124,
+            92,
+            255,
+            0.08
+        );
+
+    border-radius:
+        0 10px 10px 0;
+
+    color: #c9c4ea;
+}
+
+
+/* ==============================
+   RESPUESTAS
+============================== */
+
+.answers-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+.answer-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px;
+
+    text-align: left;
+
+    color:
+        var(--text);
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(255,255,255,0.02);
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        0.2s ease;
+}
+
+
+.answer-option:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        rgba(
+            124,
+            92,
+            255,
+            0.7
+        );
+
+    background:
+        rgba(
+            124,
+            92,
+            255,
+            0.08
+        );
+}
+
+
+.option-letter {
+
+    width: 32px;
+
+    height: 32px;
+
+    display: grid;
+
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.answer-option.correct {
+
+    border-color: #38d39f;
+
+    background:
+        rgba(
+            56,
+            211,
+            159,
+            0.08
+        );
+}
+
+
+.answer-option.incorrect {
+
+    border-color: #ff667a;
+
+    background:
+        rgba(
+            255,
+            102,
+            122,
+            0.08
+        );
+}
+
+
+/* ==============================
+   FEEDBACK
+============================== */
+
+.feedback {
+
+    display: none;
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    align-items: center;
+
+    gap: 16px;
+}
+
+
+.feedback.success,
+.feedback.error {
+
+    display: flex;
+}
+
+
+.feedback.success {
+
+    border:
+        1px solid
+        rgba(
+            56,
+            211,
+            159,
+            0.3
+        );
+
+    background:
+        rgba(
+            56,
+            211,
+            159,
+            0.07
+        );
+}
+
+
+.feedback.error {
+
+    border:
+        1px solid
+        rgba(
+            255,
+            102,
+            122,
+            0.3
+        );
+
+    background:
+        rgba(
+            255,
+            102,
+            122,
+            0.07
+        );
+}
+
+
+.feedback-icon {
+
+    font-size: 25px;
+}
+
+
+.feedback strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+
+.feedback p {
+
+    color:
+        var(--text-secondary);
+
+    line-height: 1.5;
+}
+
+
+.xp-earned {
+
+    display: inline-block;
+
+    margin-top: 10px;
+
+    color: #ffd76a;
+
+    font-weight: 800;
+}
+
+
+.try-again {
+
+    display: block;
+
+    margin-top: 8px;
+
+    color: #ff9cab;
+
+    font-size: 12px;
+}
+
+
+.feedback-next {
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #38d39f;
+
+    cursor: pointer;
+
+    font-weight: 800;
+}
+
+
+/* ==============================
+   BUILDER
+============================== */
+
+.builder-label {
+
+    margin:
+        25px 0 10px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    font-weight: 800;
+}
+
+
+.code-pieces {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+
+.code-piece {
+
+    padding:
+        12px 15px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,0.04);
+
+    color:
+        var(--text);
+
+    cursor: pointer;
+}
+
+
+.code-piece:hover {
+
+    border-color:
+        var(--primary);
+}
+
+
+.code-piece:disabled {
+
+    opacity: 0.3;
+
+    cursor:
+        not-allowed;
+}
+
+
+.builder-output {
+
+    min-height: 130px;
+
+    padding: 20px;
+
+    background: #070a10;
+
+    border:
+        1px dashed
+        rgba(255,255,255,0.15);
+
+    border-radius: 12px;
+}
+
+
+.builder-placeholder {
+
+    color:
+        var(--text-secondary);
+
+    font-size: 13px;
+}
+
+
+.builder-line {
+
+    padding:
+        6px 0;
+
+    font-family:
+        Consolas,
+        monospace;
+}
+
+
+.builder-buttons {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.secondary-button {
+
+    padding:
+        14px 20px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background: transparent;
+
+    color:
+        var(--text-secondary);
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+}
+
+
+/* ==============================
+   ACCIONES
+============================== */
+
+.challenge-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 35px;
+}
+
+
+/* ==============================
+   NIVEL COMPLETADO
+============================== */
+
+.level-finished {
+
+    text-align: center;
+
+    padding:
+        70px 40px;
+}
+
+
+.finished-icon {
+
+    font-size: 70px;
+
+    margin-bottom: 20px;
+}
+
+
+.level-finished h2 {
+
+    font-size: 36px;
+
+    margin-bottom: 15px;
+}
+
+
+.level-finished > p {
+
+    color:
+        var(--text-secondary);
+
+    max-width: 600px;
+
+    margin:
+        0 auto 30px;
+
+    line-height: 1.7;
+}
+
+
+.finished-xp {
+
+    margin-bottom: 30px;
+
+    color: #ffd76a;
+
+    font-size: 25px;
+
+    font-weight: 800;
+}
+
+
+/* ==============================
+   VOLVER
+============================== */
+
+.back-button {
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        var(--text-secondary);
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+
+.back-button:hover {
+
+    color:
+        var(--text);
+}
+
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media (
+    max-width: 750px
+) {
+
+    .mission-header {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+
+    .mission-progress {
+
+        width: 100%;
+    }
+
+
+    .answers-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .concept-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .challenge-card {
+
+        padding: 25px;
+    }
+
+
+    .feedback.success {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .feedback-next {
+
+        margin-left: 0;
+    }
+
+}
+
+.lab-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.lab-item {
+    display: grid;
+    gap: 4px;
+    min-width: 110px;
+    padding: 14px;
+    border: 1px solid rgba(124, 92, 255, 0.45);
+    border-radius: 10px;
+    background: rgba(124, 92, 255, 0.09);
+    font-family: Consolas, monospace;
+}
+
+.lab-item small { color: var(--primary-light); }
+
+.lab-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.access-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.access-controls label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+@media (max-width: 750px) {
+    .access-controls { grid-template-columns: 1fr; }
+}
+
+/* Las respuestas pueden contener programas: su sangría es significativa. */
+.answer-option code {
+    min-width: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    tab-size: 4;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    line-height: 1.55;
+}
+
+/* Las piezas deben mostrar exactamente la sangría que construye el estudiante. */
+.code-piece code,
+.builder-line code {
+    display: block;
+    white-space: pre;
+    tab-size: 4;
+}
+
+@media (max-width: 750px) {
+    .challenge-layout {
+        width: min(100% - 28px, 1000px);
+        padding-top: 28px;
+    }
+
+    .code-block {
+        padding: 16px;
+        font-size: 13px;
+    }
+
+    .answer-option {
+        align-items: flex-start;
+        padding: 15px;
+    }
+}
