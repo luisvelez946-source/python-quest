@@ -1,0 +1,38 @@
+<script>
+LEVEL_CONTENT[5] = {
+    title: "Fábrica Alpina: Control de Calidad y Monitoreo",
+    description: "Analizarás lotes de producción, lecturas de sensores térmicos y automatizarás decisiones de planta mediante control de flujo.",
+    challenges: [
+        { id: "L5-01", type: "lesson", label: "DESCUBRE", icon: "🥛", title: "Control térmico y colecciones de sensores", content: `<p>En la planta de pasteurización de Alpina, el monitoreo constante evita pérdidas de materia prima.</p><div class="concept-grid"><div class="concept-item"><strong>if-elif-else</strong><span>Decide según rangos</span></div><div class="concept-item"><strong>for</strong><span>Recorre lecturas de sensores</span></div><div class="concept-item"><strong>while</strong><span>Repite mientras la condición sea verdadera</span></div><div class="concept-item"><strong>list [ ]</strong><span>Historial ordenado de temperaturas</span></div></div><pre class="code-block"><code>lecturas = [72, 68, 85, 70]
+
+for temp in lecturas:
+    if temp > 80:
+        print("Alerta crítica: tanque sobrecalentado")
+    else:
+        print("Operación nominal")</code></pre><div class="tip-box">💡 Un condicional dentro de un bucle permite filtrar anomalías en miles de datos industriales sin revisarlos uno por uno.</div>` },
+
+        { id: "L5-02", type: "choice", label: "OBSERVA", icon: "📏", title: "Evaluación de rangos de operación", question: "La temperatura ideal del tanque está entre 68°C y 78°C (inclusive). ¿Qué condición valida correctamente que temp sea segura?", options: ["if temp == 68 and temp == 78:", "if temp >= 68 and temp <= 78:", "if temp > 68 or temp < 78:", "if temp == 68 to 78:"], correct: 1, xp: 10, correctFeedback: "Correcto. El operador and exige que ambas comparaciones se cumplan al mismo tiempo.", incorrectFeedback: "El valor debe ser mayor o igual al límite inferior Y menor o igual al superior." },
+
+        { id: "L5-08", type: "accessLab", label: "EXPERIMENTA", icon: "🔐", title: "Arranque seguro de la pasteurizadora", prompt: "Prueba la regla de seguridad de la línea. Activa las condiciones necesarias para que la pasteurizadora arranque y pulsa verificar.", code: `if temperatura_ok and presion_ok and not fuga:
+    print("Iniciar pasteurización")
+else:
+    print("Línea detenida")`, toggles: [{ id: "temp", label: "Temperatura correcta" }, { id: "presion", label: "Presión normal" }, { id: "fuga", label: "Fuga detectada" }], rule: v => v.temp && v.presion && !v.fuga, allowedText: "Resultado: Iniciar pasteurización.", deniedText: "Resultado: Línea detenida.", xp: 20, correctFeedback: "La línea arranca solo cuando se cumplen las dos condiciones positivas y no hay fuga.", incorrectFeedback: "Recuerda: con and todas las condiciones deben cumplirse, y not invierte la fuga." },
+
+        { id: "L5-03", type: "choice", label: "RESUELVE", icon: "⚙️", title: "Conteo de alertas en lotes", question: "Con lecturas = [75, 82, 69, 90, 71], ¿cuántas veces se ejecuta el bloque dentro de if temp > 80?", code: `lecturas = [75, 82, 69, 90, 71]
+
+for temp in lecturas:
+    if temp > 80:
+        print("Alerta")`, options: ["1 vez", "2 veces", "3 veces", "5 veces"], correct: 1, xp: 10, correctFeedback: "Correcto. Solo 82 y 90 superan 80, así que el bloque se ejecuta 2 veces.", incorrectFeedback: "Cuenta cuántos elementos de la lista superan estrictamente el valor 80." },
+
+        { id: "L5-09", type: "listLab", label: "PRACTICA", icon: "📋", title: "Registro de lotes en producción", varName: "lotes", unit: "lotes", initialItems: ["lote-A", "lote-B", "lote-C"], actions: [{ id: "append", label: 'lotes.append("lote-D")', op: "append", value: "lote-D" }, { id: "remove", label: 'lotes.remove("lote-B")', op: "remove", value: "lote-B" }, { id: "count", label: "len(lotes)", op: "count" }], steps: [{ instruction: "Llegó un lote nuevo: regístralo al final de la lista.", action: "append" }, { instruction: "El lote-B salió contaminado: retíralo de la producción.", action: "remove" }, { instruction: "Verifica cuántos lotes siguen en producción.", action: "count" }], xp: 20, correctFeedback: "Lista actualizada: agregaste, retiraste y contaste lotes con los métodos de la lista.", incorrectFeedback: "Lee la instrucción y elige el método que produce ese cambio en la lista." },
+
+        { id: "L5-04", type: "choice", label: "PREDICE", icon: "🏭", title: "Control de carga en tolva", question: "Un bucle while peso < 1000: llena un contenedor de leche en polvo. Si dentro del bucle nunca se actualiza peso, ¿qué ocurre?", options: ["El programa termina inmediatamente.", "Se produce un bucle infinito.", "Python asigna 1000 automáticamente a peso.", "El bucle se convierte en un if."], correct: 1, xp: 10, correctFeedback: "Muy bien. Si la variable de control nunca cambia, la condición siempre seguirá siendo verdadera.", incorrectFeedback: "Piensa qué pasa con la condición si peso nunca se modifica dentro del bucle." },
+
+        { id: "L5-05", type: "choice", label: "DEPURA", icon: "🛠️", title: "Identificación de anomalías", question: "Debes detener la inspección apenas encuentres un lote contaminado. ¿Qué instrucción usas dentro del bucle?", options: ["continue", "pass", "break", "exit()"], correct: 2, xp: 10, correctFeedback: "Exacto. break interrumpe el bucle en cuanto se detecta la falla.", incorrectFeedback: "continue salta a la siguiente vuelta; busca la instrucción que sale del bucle por completo." },
+
+        { id: "L5-07", type: "builder", label: "CONSTRUYE", icon: "⚙️", title: "Recorre las lecturas de la planta", question: "Construye un programa que recorra la lista de lecturas y muestre una alerta por cada temperatura mayor que 80.", pieces: [{ id: "print", text: `        print("Alerta")` }, { id: "wrongIf", text: `    if temp = 80:` }, { id: "for", text: `for temp in lecturas:` }, { id: "data", text: `lecturas = [72, 68, 85, 70]` }, { id: "wrongFor", text: `for temp in range(lecturas):` }, { id: "if", text: `    if temp > 80:` }], expected: ["data", "for", "if", "print"], xp: 20, correctFeedback: "Programa construido: defines los datos, recorres la lista y filtras con la condición.", incorrectFeedback: "Define primero la lista, luego el for, luego el if con una comparación (>) y por último la instrucción indentada." },
+
+        { id: "L5-06", type: "choice", label: "DEMUESTRA", icon: "🏆", title: "Sintaxis de bucle sobre listas", question: "¿Cuál es la forma correcta de recorrer, elemento por elemento, la lista lotes_produccion?", options: ["for i in range(lotes_produccion):", "for lote in lotes_produccion:", "foreach lote in lotes_produccion:", "while lotes_produccion.hasNext():"], correct: 1, xp: 20, correctFeedback: "Misión completada. for elemento in coleccion: es la sintaxis natural de Python.", incorrectFeedback: "Python no usa foreach ni hasNext(); esa sintaxis es de otros lenguajes." }
+    ]
+};
+</script>
