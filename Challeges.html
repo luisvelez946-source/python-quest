@@ -1,0 +1,1533 @@
+<script>
+const LEVEL_CONTENT = {
+
+    1: {
+
+        title:
+            "Habla Python",
+
+        description:
+            "Antes de resolver problemas necesitas aprender a reconocer cómo Python representa la información.",
+
+
+        challenges: [
+
+            /*
+            ==========================================
+            ETAPA 1
+            DESCUBRE
+            ==========================================
+            */
+
+            {
+                id: "L1-01",
+
+                type: "lesson",
+
+                label: "DESCUBRE",
+
+                icon: "📖",
+
+                title:
+                    "Python necesita conocer tus datos",
+
+                content: `
+
+                    <p>
+                        En Python una variable permite
+                        almacenar información utilizando
+                        un nombre.
+                    </p>
+
+                    <pre class="code-block"><code>nombre = "Laura"
+edad = 19
+altura = 1.68
+estudiante = True</code></pre>
+
+                    <p>
+                        Observa que cada valor tiene
+                        características diferentes.
+                    </p>
+
+                    <div class="concept-grid">
+
+                        <div class="concept-item">
+                            <strong>"Laura"</strong>
+                            <span>str</span>
+                        </div>
+
+                        <div class="concept-item">
+                            <strong>19</strong>
+                            <span>int</span>
+                        </div>
+
+                        <div class="concept-item">
+                            <strong>1.68</strong>
+                            <span>float</span>
+                        </div>
+
+                        <div class="concept-item">
+                            <strong>True</strong>
+                            <span>bool</span>
+                        </div>
+
+                    </div>
+
+                    <div class="tip-box">
+                        💡 Las comillas cambian completamente
+                        el significado de un dato.
+                    </div>
+
+                `
+            },
+
+
+            /*
+            ==========================================
+            ETAPA 2
+            RECONOCE
+            ==========================================
+            */
+
+            {
+                id: "L1-02",
+
+                type: "choice",
+
+                label: "RECONOCE",
+
+                icon: "🔍",
+
+                title:
+                    "El número que no es un número",
+
+                question:
+                    "Observa esta variable. ¿Qué tipo de dato almacena?",
+
+                code:
+                    `edad = "19"`,
+
+                options: [
+
+                    "int",
+
+                    "float",
+
+                    "str",
+
+                    "bool"
+                ],
+
+                correct: 2,
+
+                xp: 10,
+
+                correctFeedback:
+                    "Exacto. Aunque vemos los caracteres 1 y 9, las comillas indican que Python lo interpreta como texto.",
+
+                incorrectFeedback:
+                    "Observa con atención las comillas. No pienses solamente en lo que representa 19 para una persona."
+            },
+
+
+            /*
+            ==========================================
+            ETAPA 3
+            SINTAXIS
+            ==========================================
+            */
+
+            {
+                id: "L1-03",
+
+                type: "choice",
+
+                label: "SINTAXIS",
+
+                icon: "🧩",
+
+                title:
+                    "Encuentra la instrucción correcta",
+
+                question:
+                    "Queremos almacenar la altura de una persona como un número decimal. ¿Cuál opción es correcta?",
+
+                options: [
+
+                    `altura = "1.75"`,
+
+                    `altura = 1,75`,
+
+                    `altura = 1.75`,
+
+                    `1.75 = altura`
+                ],
+
+                correct: 2,
+
+                xp: 10,
+
+                correctFeedback:
+                    "Correcto. Python utiliza el punto como separador decimal y el valor se asigna a la variable utilizando =.",
+
+                incorrectFeedback:
+                    "Revisa dos cosas: el sentido de la asignación y la forma en que Python escribe los números decimales."
+            },
+
+
+            /*
+            ==========================================
+            ETAPA 4
+            LECTURA DE CÓDIGO
+            ==========================================
+            */
+
+            {
+                id: "L1-04",
+
+                type: "choice",
+
+                label: "PREDICE",
+
+                icon: "🧠",
+
+                title:
+                    "Antes de ejecutar, piensa",
+
+                question:
+                    "¿Qué mostrará este programa?",
+
+                code:
+`nombre = "Ana"
+edad = 20
+
+print(f"{nombre} tiene {edad} años")`,
+
+                options: [
+
+                    `"nombre tiene edad años"`,
+
+                    `"Ana tiene 20 años"`,
+
+                    `"Ana tiene edad años"`,
+
+                    `"20 tiene Ana años"`
+                ],
+
+                correct: 1,
+
+                xp: 10,
+
+                correctFeedback:
+                    "Muy bien. Las llaves de un f-string permiten insertar el valor almacenado en una variable.",
+
+                incorrectFeedback:
+                    "Recuerda que dentro de un f-string las expresiones entre llaves se reemplazan por sus valores."
+            },
+
+
+            /*
+            ==========================================
+            ETAPA 5
+            CONSTRUCCIÓN
+            ==========================================
+            */
+
+            {
+                id: "L1-05",
+
+                type: "builder",
+
+                label: "CONSTRUYE",
+
+                icon: "⚙️",
+
+                title:
+                    "Reconstruye el programa",
+
+                question:
+                    "Construye un programa que muestre: Laura tiene 19 años",
+
+                pieces: [
+
+                    {
+                        id: "name",
+
+                        text:
+                            `nombre = "Laura"`
+                    },
+
+                    {
+                        id: "printWrong",
+
+                        text:
+                            `print(nombre + edad)`
+                    },
+
+                    {
+                        id: "age",
+
+                        text:
+                            `edad = 19`
+                    },
+
+                    {
+                        id: "print",
+
+                        text:
+                            `print(f"{nombre} tiene {edad} años")`
+                    }
+
+                ],
+
+                expected: [
+                    "name",
+                    "age",
+                    "print"
+                ],
+
+                /* nombre y edad son independientes; print debe ir al final. */
+                allowAnyOrderBeforeLast: true,
+
+                xp: 20,
+
+                correctFeedback:
+                    "Excelente. Definiste primero los datos y después utilizaste esas variables para construir el mensaje.",
+
+                incorrectFeedback:
+                    "El programa debe definir las variables antes de utilizarlas. También debes tener cuidado al combinar texto y números."
+            }
+
+        ]
+
+    }
+
+};
+
+
+let currentLevelId = null;
+
+let currentChallengeIndex = 0;
+
+let selectedBuilderPieces = [];
+
+let labItems = [];
+let labStepIndex = 0;
+
+
+/*
+==========================================
+INICIAR NIVEL
+==========================================
+*/
+
+function startLevel(levelId) {
+
+    const level =
+        LEVEL_CONTENT[levelId];
+
+
+    if (!level) {
+
+        console.warn(
+            "El nivel todavía no tiene contenido."
+        );
+
+        return;
+    }
+
+
+    currentLevelId =
+        levelId;
+
+
+    /*
+    Buscamos el primer reto que
+    todavía no haya sido completado.
+    */
+
+    const firstPending =
+        level.challenges.findIndex(
+            challenge =>
+                !Game.isChallengeCompleted(
+                    challenge.id
+                )
+        );
+
+
+    currentChallengeIndex =
+        firstPending === -1
+            ? 0
+            : firstPending;
+
+
+    const isReview =
+        firstPending === -1;
+
+
+    document
+        .getElementById(
+            "mission-level"
+        )
+        .textContent =
+            `NIVEL ${levelId}`;
+
+
+    document
+        .getElementById(
+            "mission-title"
+        )
+        .textContent =
+            level.title;
+
+
+    document
+        .getElementById(
+            "mission-description"
+        )
+        .textContent =
+            isReview
+                ? `${level.description} Estás en modo repaso: puedes repetirlo sin ganar XP adicional.`
+                : level.description;
+
+
+    showScreen(
+        "challenge-screen"
+    );
+
+
+    renderCurrentChallenge();
+}
+
+
+/*
+==========================================
+RENDERIZAR RETO
+==========================================
+*/
+
+function renderCurrentChallenge() {
+
+    const level =
+        LEVEL_CONTENT[
+            currentLevelId
+        ];
+
+
+    const challenge =
+        level.challenges[
+            currentChallengeIndex
+        ];
+
+
+    selectedBuilderPieces = [];
+
+
+    updateChallengeProgress();
+
+
+    if (
+        challenge.type ===
+        "lesson"
+    ) {
+
+        renderLesson(
+            challenge
+        );
+
+        return;
+    }
+
+
+    if (
+        challenge.type ===
+        "choice"
+    ) {
+
+        renderChoice(
+            challenge
+        );
+
+        return;
+    }
+
+
+    if (
+        challenge.type ===
+        "builder"
+    ) {
+
+        renderBuilder(
+            challenge
+        );
+
+        return;
+    }
+
+
+    if (
+        challenge.type ===
+        "listLab"
+    ) {
+
+        renderListLab(
+            challenge
+        );
+
+        return;
+    }
+
+
+    if (
+        challenge.type ===
+        "accessLab"
+    ) {
+
+        renderAccessLab(
+            challenge
+        );
+    }
+
+}
+
+
+/*
+==========================================
+LECCIÓN
+==========================================
+*/
+
+function renderLesson(challenge) {
+
+    const container =
+        document.getElementById(
+            "challenge-container"
+        );
+
+
+    container.innerHTML = `
+
+        <article class="challenge-card">
+
+            ${challengeHeader(
+                challenge
+            )}
+
+            <div class="lesson-content">
+
+                ${challenge.content}
+
+            </div>
+
+
+            <div class="challenge-actions">
+
+                <button
+                    id="lesson-next"
+                    class="primary-button">
+
+                    ENTENDIDO, CONTINUAR →
+
+                </button>
+
+            </div>
+
+        </article>
+    `;
+
+
+    document
+        .getElementById(
+            "lesson-next"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                Game.completeChallenge(
+                    challenge.id,
+                    0
+                );
+
+                nextChallenge();
+            }
+        );
+
+}
+
+
+/*
+==========================================
+SELECCIÓN MÚLTIPLE
+==========================================
+*/
+
+function renderChoice(challenge) {
+
+    const container =
+        document.getElementById(
+            "challenge-container"
+        );
+
+
+    const codeHTML =
+        challenge.code
+            ? `
+                <!-- No dejar saltos ni espacios antes de <code>:
+                     dentro de <pre> son parte de la indentación Python. -->
+                <pre class="code-block"><code>${escapeHTML(
+                    challenge.code
+                )}</code></pre>
+            `
+            : "";
+
+
+    const optionsHTML =
+        challenge.options
+            .map(
+                (option, index) => `
+
+                    <button
+                        class="answer-option"
+                        data-index="${index}">
+
+                        <span class="option-letter">
+                            ${String.fromCharCode(
+                                65 + index
+                            )}
+                        </span>
+
+                        <code>${escapeHTML(
+                            option
+                        )}</code>
+
+                    </button>
+
+                `
+            )
+            .join("");
+
+
+    container.innerHTML = `
+
+        <article class="challenge-card">
+
+            ${challengeHeader(
+                challenge
+            )}
+
+            <p class="challenge-question">
+                ${challenge.question}
+            </p>
+
+            ${codeHTML}
+
+
+            <div class="answers-grid">
+
+                ${optionsHTML}
+
+            </div>
+
+
+            <div
+                id="feedback"
+                class="feedback">
+            </div>
+
+        </article>
+    `;
+
+
+    document
+        .querySelectorAll(
+            ".answer-option"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    checkChoiceAnswer(
+                        challenge,
+                        button
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+/*
+==========================================
+VALIDAR RESPUESTA
+==========================================
+*/
+
+function checkChoiceAnswer(
+    challenge,
+    button
+) {
+
+    const selected =
+        Number(
+            button.dataset.index
+        );
+
+
+    Game.registerAttempt(
+        challenge.id
+    );
+
+
+    if (
+        selected ===
+        challenge.correct
+    ) {
+
+        document
+            .querySelectorAll(
+                ".answer-option"
+            )
+            .forEach(option => {
+
+                option.disabled = true;
+            });
+
+
+        button.classList.add(
+            "correct"
+        );
+
+
+        const gainedXP =
+            Game.completeChallenge(
+                challenge.id,
+                challenge.xp
+            );
+
+
+        showFeedback(
+            true,
+            challenge.correctFeedback,
+            gainedXP
+                ? challenge.xp
+                : 0
+        );
+
+    } else {
+
+        button.classList.add(
+            "incorrect"
+        );
+
+
+        showFeedback(
+            false,
+            challenge.incorrectFeedback
+        );
+    }
+
+}
+
+
+const DEFAULT_ACCESS_TOGGLES = [
+    { id: "card", label: "Tarjeta" },
+    { id: "password", label: "Contraseña" },
+    { id: "blocked", label: "Bloqueado" }
+];
+
+const DEFAULT_LAB_ACTIONS = [
+    { id: "append", label: 'append("transistor")', op: "append", value: "transistor" },
+    { id: "remove", label: 'remove("diodo")', op: "remove", value: "diodo" },
+    { id: "count", label: "len(componentes)", op: "count" }
+];
+
+function renderAccessLab(challenge) {
+    const container = document.getElementById("challenge-container");
+    const toggles = challenge.toggles || DEFAULT_ACCESS_TOGGLES;
+    const promptText = challenge.prompt || "Prueba la regla: se permite el acceso solo con tarjeta, contraseña y sin bloqueo.";
+    const code = challenge.code || 'if tarjeta and contraseña and not bloqueado:\n    print("Acceso permitido")';
+    const togglesHTML = toggles.map(toggle => `<label>${toggle.label} <input type="checkbox" data-toggle="${toggle.id}"></label>`).join("");
+    container.innerHTML = `<article class="challenge-card">${challengeHeader(challenge)}<p class="challenge-question">${promptText}</p><pre class="code-block"><code>${escapeHTML(code)}</code></pre><div class="access-controls">${togglesHTML}</div><button id="access-check" class="primary-button">VERIFICAR →</button><div id="feedback" class="feedback"></div></article>`;
+    document.getElementById("access-check").addEventListener("click", () => checkAccessLab(challenge));
+}
+
+function checkAccessLab(challenge) {
+    const values = {};
+    document.querySelectorAll("[data-toggle]").forEach(input => {
+        values[input.dataset.toggle] = input.checked;
+    });
+
+    const rule = challenge.rule || (v => v.card && v.password && !v.blocked);
+    const result = Boolean(rule(values));
+    const success = challenge.goal ? Boolean(challenge.goal(values)) : result;
+    const yesText = challenge.allowedText || "Acceso permitido.";
+    const noText = challenge.deniedText || "Acceso denegado.";
+    const resultText = result ? yesText : noText;
+
+    Game.registerAttempt(challenge.id);
+
+    if (success) {
+        const gainedXP = Game.completeChallenge(challenge.id, challenge.xp);
+        showFeedback(true, `${challenge.correctFeedback} ${resultText}`, gainedXP ? challenge.xp : 0);
+    } else {
+        showFeedback(false, `${challenge.incorrectFeedback} ${resultText}`);
+    }
+}
+
+function renderListLab(challenge) {
+    labItems = [...challenge.initialItems];
+    labStepIndex = 0;
+    const actions = challenge.actions || DEFAULT_LAB_ACTIONS;
+    const buttonsHTML = actions.map(action => `<button data-action="${action.id}" class="secondary-button">${escapeHTML(action.label)}</button>`).join("");
+    const container = document.getElementById("challenge-container");
+    container.innerHTML = `<article class="challenge-card">${challengeHeader(challenge)}<p id="lab-instruction" class="challenge-question"></p><pre class="code-block"><code id="lab-code"></code></pre><div id="lab-items" class="lab-items"></div><div class="lab-actions">${buttonsHTML}</div><div id="feedback" class="feedback"></div></article>`;
+    container.querySelectorAll("[data-action]").forEach(button => {
+        button.addEventListener("click", () => runLabAction(challenge, button.dataset.action));
+    });
+    updateListLab(challenge);
+}
+
+function formatLabItem(challenge, item) {
+    return challenge.numeric ? String(item) : `"${item}"`;
+}
+
+function updateListLab(challenge) {
+    const step = challenge.steps[labStepIndex];
+    const name = challenge.varName || "componentes";
+    document.getElementById("lab-instruction").textContent = step.instruction;
+    document.getElementById("lab-code").textContent = `${name} = [${labItems.map(item => formatLabItem(challenge, item)).join(", ")}]`;
+    document.getElementById("lab-items").innerHTML = labItems.map((item, index) => `<span class="lab-item"><small>${index}</small>${item}</span>`).join("");
+}
+
+function runLabAction(challenge, actionId) {
+    const step = challenge.steps[labStepIndex];
+    if (!step) return; /* el laboratorio ya terminó */
+
+    const actions = challenge.actions || DEFAULT_LAB_ACTIONS;
+    const action = actions.find(item => item.id === actionId);
+
+    Game.registerAttempt(challenge.id);
+
+    if (!action || actionId !== step.action) {
+        showFeedback(false, challenge.incorrectFeedback);
+        return;
+    }
+
+    const value = step.value !== undefined ? step.value : action.value;
+
+    if (action.op === "append") labItems.push(value);
+    if (action.op === "remove") labItems = labItems.filter(item => item !== value);
+    if (action.op === "pop") labItems.pop();
+    if (action.op === "sort") labItems.sort((a, b) => (a > b) - (a < b));
+    if (action.op === "unique") labItems = [...new Set(labItems)];
+
+    labStepIndex++;
+
+    if (labStepIndex === challenge.steps.length) {
+        const gainedXP = Game.completeChallenge(challenge.id, challenge.xp);
+        showFeedback(true, `${challenge.correctFeedback} Quedan ${labItems.length} ${challenge.unit || "componentes"}.`, gainedXP ? challenge.xp : 0);
+        return;
+    }
+
+    /* limpia el mensaje de error de un intento anterior */
+    const feedback = document.getElementById("feedback");
+    feedback.className = "feedback";
+    feedback.innerHTML = "";
+
+    updateListLab(challenge);
+}
+
+
+function renderBuilder(challenge) {
+
+    const container =
+        document.getElementById(
+            "challenge-container"
+        );
+
+
+    const pieces =
+        challenge.pieces
+            .map(piece => `
+
+                <button
+                    class="code-piece"
+                    data-id="${piece.id}">
+
+                    <code>${escapeHTML(
+                        piece.text
+                    )}</code>
+
+                </button>
+
+            `)
+            .join("");
+
+
+    container.innerHTML = `
+
+        <article class="challenge-card">
+
+            ${challengeHeader(
+                challenge
+            )}
+
+            <p class="challenge-question">
+
+                ${challenge.question}
+
+            </p>
+
+
+            <div class="builder-section">
+
+                <p class="builder-label">
+                    PIEZAS DISPONIBLES
+                </p>
+
+                <div class="code-pieces">
+                    ${pieces}
+                </div>
+
+
+                <p class="builder-label">
+                    TU PROGRAMA
+                </p>
+
+                <div
+                    id="builder-output"
+                    class="builder-output">
+
+                    <span class="builder-placeholder">
+                        Selecciona las instrucciones
+                        en el orden correcto...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="builder-buttons">
+
+                <button
+                    id="builder-reset"
+                    class="secondary-button">
+
+                    REINICIAR
+
+                </button>
+
+                <button
+                    id="builder-check"
+                    class="primary-button">
+
+                    EJECUTAR ▶
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="feedback"
+                class="feedback">
+            </div>
+
+        </article>
+    `;
+
+
+    document
+        .querySelectorAll(
+            ".code-piece"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    addBuilderPiece(
+                        challenge,
+                        button
+                    );
+
+                }
+            );
+
+        });
+
+
+    document
+        .getElementById(
+            "builder-reset"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                selectedBuilderPieces = [];
+
+                renderBuilder(
+                    challenge
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "builder-check"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                checkBuilder(
+                    challenge
+                );
+
+            }
+        );
+
+}
+
+
+/*
+==========================================
+AÑADIR PIEZA
+==========================================
+*/
+
+function addBuilderPiece(
+    challenge,
+    button
+) {
+
+    const pieceId =
+        button.dataset.id;
+
+
+    const piece =
+        challenge.pieces.find(
+            item =>
+                item.id === pieceId
+        );
+
+
+    selectedBuilderPieces.push(
+        pieceId
+    );
+
+
+    button.disabled = true;
+
+
+    const output =
+        document.getElementById(
+            "builder-output"
+        );
+
+
+    if (
+        selectedBuilderPieces.length === 1
+    ) {
+
+        output.innerHTML = "";
+    }
+
+
+    const line =
+        document.createElement(
+            "div"
+        );
+
+
+    line.className =
+        "builder-line";
+
+
+    line.innerHTML =
+        `<code>${escapeHTML(
+            piece.text
+        )}</code>`;
+
+
+    output.appendChild(
+        line
+    );
+
+}
+
+
+/*
+==========================================
+VALIDAR CONSTRUCTOR
+==========================================
+*/
+
+function checkBuilder(challenge) {
+
+    Game.registerAttempt(
+        challenge.id
+    );
+
+
+    const correct =
+        challenge.allowAnyOrderBeforeLast
+            ? hasRequiredPiecesBeforeOutput(
+                selectedBuilderPieces,
+                challenge.expected
+            )
+            : arraysEqual(
+                selectedBuilderPieces,
+                challenge.expected
+            );
+
+
+    if (correct) {
+
+        const gainedXP =
+            Game.completeChallenge(
+                challenge.id,
+                challenge.xp
+            );
+
+
+        showFeedback(
+            true,
+            challenge.correctFeedback,
+            gainedXP
+                ? challenge.xp
+                : 0
+        );
+
+    } else {
+
+        showFeedback(
+            false,
+            challenge.incorrectFeedback
+        );
+    }
+
+}
+
+
+/*
+==========================================
+RETROALIMENTACIÓN
+==========================================
+*/
+
+function showFeedback(
+    correct,
+    message,
+    xp = 0
+) {
+
+    const feedback =
+        document.getElementById(
+            "feedback"
+        );
+
+
+    feedback.className =
+        correct
+            ? "feedback success"
+            : "feedback error";
+
+
+    if (correct) {
+
+        feedback.innerHTML = `
+
+            <div class="feedback-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <strong>
+                    ¡Muy bien!
+                </strong>
+
+                <p>
+                    ${message}
+                </p>
+
+                ${
+                    xp > 0
+                        ? `
+                        <span class="xp-earned">
+                            +${xp} XP
+                        </span>
+                        `
+                        : ""
+                }
+
+            </div>
+
+            <button
+                id="feedback-next"
+                class="feedback-next">
+
+                CONTINUAR →
+
+            </button>
+        `;
+
+
+        document
+            .getElementById(
+                "feedback-next"
+            )
+            .addEventListener(
+                "click",
+                nextChallenge
+            );
+
+
+    } else {
+
+        feedback.innerHTML = `
+
+            <div class="feedback-icon">
+                ?
+            </div>
+
+            <div>
+
+                <strong>
+                    Aún no.
+                </strong>
+
+                <p>
+                    ${message}
+                </p>
+
+                <span class="try-again">
+                    Puedes volver a intentarlo.
+                </span>
+
+            </div>
+        `;
+    }
+
+}
+
+
+/*
+==========================================
+SIGUIENTE RETO
+==========================================
+*/
+
+function nextChallenge() {
+
+    const level =
+        LEVEL_CONTENT[
+            currentLevelId
+        ];
+
+
+    if (
+        currentChallengeIndex <
+        level.challenges.length - 1
+    ) {
+
+        currentChallengeIndex++;
+
+        renderCurrentChallenge();
+
+        return;
+    }
+
+
+    finishLevel();
+}
+
+
+/*
+==========================================
+COMPLETAR NIVEL
+==========================================
+*/
+
+function finishLevel() {
+
+   const lastLevelId =
+        Math.max(...Object.keys(LEVEL_CONTENT).map(Number));
+
+    const isFinalMission =
+        currentLevelId === lastLevelId;
+
+    Game.completeLevel(
+        currentLevelId,
+        isFinalMission
+            ? null
+            : currentLevelId + 1
+    );
+
+
+    updateChallengeProgress(
+        true
+    );
+
+
+    const container =
+        document.getElementById(
+            "challenge-container"
+        );
+
+
+    container.innerHTML = `
+
+        <article
+            class="challenge-card level-finished">
+
+            <div class="finished-icon">
+                🏆
+            </div>
+
+            <p class="eyebrow">
+                ${
+                    isFinalMission
+                        ? "MISIÓN COMPLETADA"
+                        : "NIVEL COMPLETADO"
+                }
+            </p>
+
+            <h2>
+                ${
+                    isFinalMission
+                        ? "¡Has recuperado el sistema!"
+                        : "¡Nivel completado!"
+                }
+            </h2>
+
+            <p>
+                ${
+                    isFinalMission
+                        ? "Ya puedes organizar información y enseñar a tus programas a tomar decisiones."
+                        : "Completaste la misión y desbloqueaste el siguiente desafío."
+                }
+            </p>
+
+
+            <div class="finished-xp">
+
+                ⭐ ${Game.getXP()} XP
+
+            </div>
+
+
+            <button
+                id="return-levels"
+                class="primary-button">
+
+                VOLVER A LAS MISIONES →
+
+            </button>
+
+        </article>
+    `;
+
+
+    document
+        .getElementById(
+            "return-levels"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                renderLevels();
+
+                showScreen(
+                    "levels-screen"
+                );
+            }
+        );
+
+}
+
+
+/*
+==========================================
+PROGRESO
+==========================================
+*/
+
+function updateChallengeProgress(
+    finished = false
+) {
+
+    const level =
+        LEVEL_CONTENT[
+            currentLevelId
+        ];
+
+
+    const total =
+        level.challenges.length;
+
+
+    const progress =
+        finished
+            ? 100
+            : Math.round(
+                (
+                    currentChallengeIndex /
+                    total
+                ) * 100
+            );
+
+
+    document
+        .getElementById(
+            "progress-value"
+        )
+        .textContent =
+            `${progress}%`;
+
+
+    document
+        .getElementById(
+            "progress-bar"
+        )
+        .style.width =
+            `${progress}%`;
+
+}
+
+
+/*
+==========================================
+CABECERA DEL RETO
+==========================================
+*/
+
+function challengeHeader(
+    challenge
+) {
+
+    return `
+
+        <div class="challenge-header">
+
+            <div class="challenge-icon">
+                ${challenge.icon}
+            </div>
+
+            <div>
+
+                <span class="challenge-label">
+                    ${challenge.label}
+                </span>
+
+                <h3>
+                    ${challenge.title}
+                </h3>
+
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+/*
+==========================================
+UTILIDADES
+==========================================
+*/
+
+function arraysEqual(
+    arrayA,
+    arrayB
+) {
+
+    return (
+        arrayA.length ===
+            arrayB.length &&
+
+        arrayA.every(
+            (value, index) =>
+                value ===
+                arrayB[index]
+        )
+    );
+
+}
+
+
+function escapeHTML(text) {
+
+    return text
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        );
+}
+
+
+/*
+    Algunas instrucciones independientes (como asignar variables)
+    pueden cambiar de orden. La salida debe quedar al final, porque
+    utiliza las variables definidas anteriormente.
+*/
+function hasRequiredPiecesBeforeOutput(
+    selectedPieces,
+    expectedPieces
+) {
+
+    const outputPiece =
+        expectedPieces[
+            expectedPieces.length - 1
+        ];
+
+
+    const requiredPieces =
+        expectedPieces.slice(
+            0,
+            -1
+        );
+
+
+    return (
+        selectedPieces.length ===
+            expectedPieces.length &&
+
+        selectedPieces[
+            selectedPieces.length - 1
+        ] === outputPiece &&
+
+        requiredPieces.every(
+            piece =>
+                selectedPieces.includes(
+                    piece
+                )
+        )
+    );
+}
+</script>
