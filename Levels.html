@@ -1,0 +1,286 @@
+<script>
+const LEVELS = [
+
+    {
+        id: 1,
+
+        number: "01",
+
+        icon: "🧩",
+
+        title: "Habla Python",
+
+        description:
+            "Reconoce la sintaxis, los tipos de datos y las reglas fundamentales del lenguaje.",
+
+        reward: 50,
+
+        available: true
+    },
+
+
+    {
+        id: 2,
+
+        number: "02",
+
+        icon: "📦",
+
+        title: "El almacén de datos",
+
+        description:
+            "Descubre listas, tuplas, diccionarios y conjuntos, y aprende cuándo utilizar cada colección.",
+
+        reward: 80,
+
+        available: true
+    },
+
+
+    {
+        id: 3,
+
+        number: "03",
+
+        icon: "🧠",
+
+        title: "El sistema decide",
+
+        description:
+            "Utiliza comparaciones y condicionales para enseñar a tus programas a tomar decisiones.",
+
+        reward: 100,
+
+        available: true
+    },
+
+
+    {
+        id: 4,
+
+        number: "∞",
+
+        icon: "🏆",
+
+        title: "Misión final",
+
+        description:
+            "Combina todo lo aprendido para resolver un desafío completo.",
+
+        reward: 150,
+
+        available: true
+    },         
+
+    {
+        id: 5,
+        number: "05",
+        icon: "🥛",
+        title: "Fábrica Alpina: Control de calidad",
+        description:
+            "Recorre lecturas de sensores, filtra alertas y automatiza decisiones de planta con condicionales y bucles.",
+        reward: 120,
+        available: true
+    },
+
+    {
+        id: 6,
+        number: "06",
+        icon: "💳",
+        title: "Fintech TuCuenta: Detección de fraude",
+        description:
+            "Procesa diccionarios de usuarios, elimina duplicados y valida transacciones financieras.",
+        reward: 120,
+        available: true
+    },
+    {
+        id: 7,
+        number: "07",
+        icon: "📦",
+        title: "Logística E-commerce: Inventario y envíos",
+        description:
+            "Automatiza el procesamiento de pedidos y el control de stock con bucles for, break y continue.",
+        reward: 120,
+        available: true
+    },
+     {
+        id: 8,
+        number: "08",
+        icon: "🔁",
+        title: "Automatización Industrial: Funciones y Lambda",
+        description:
+            "Domina bucles while, funciones con *args/**kwargs y expresiones lambda en control industrial.",
+        reward: 150,
+        available: true
+    }
+
+];
+
+
+function renderLevels() {
+
+    const container =
+        document.getElementById(
+            "levels-grid"
+        );
+
+
+    container.innerHTML = "";
+
+
+    LEVELS.forEach(level => {
+
+        const unlocked =
+            Game.isLevelUnlocked(
+                level.id
+            );
+
+        const completed =
+            Game.isLevelCompleted(
+                level.id
+            );
+
+
+        const card =
+            document.createElement(
+                "article"
+            );
+
+
+        card.className =
+            "level-card";
+
+
+        if (completed) {
+
+            card.classList.add(
+                "completed"
+            );
+
+        } else if (unlocked) {
+
+            card.classList.add(
+                "unlocked"
+            );
+
+        } else {
+
+            card.classList.add(
+                "locked"
+            );
+        }
+
+
+        let statusHTML = "";
+
+
+        if (completed) {
+
+            statusHTML = `
+                <span class="level-completed">
+                    ✓ COMPLETADO
+                </span>
+
+                <button
+                    class="level-button"
+                    data-level="${level.id}">
+                    REPETIR
+                </button>
+            `;
+
+        } else if (
+            unlocked &&
+            level.available
+        ) {
+
+            statusHTML = `
+                <span>
+                    +${level.reward} XP
+                </span>
+
+                <button
+                    class="level-button"
+                    data-level="${level.id}">
+                    COMENZAR
+                </button>
+            `;
+
+        } else if (
+            unlocked &&
+            !level.available
+        ) {
+
+            statusHTML = `
+                <span>
+                    🚧 PRÓXIMAMENTE
+                </span>
+            `;
+
+        } else {
+
+            statusHTML = `
+                <span>
+                    🔒 BLOQUEADO
+                </span>
+            `;
+        }
+
+
+        card.innerHTML = `
+
+            <div class="level-number">
+                ${level.number}
+            </div>
+
+            <div class="level-icon">
+                ${level.icon}
+            </div>
+
+            <h3>
+                ${level.title}
+            </h3>
+
+            <p>
+                ${level.description}
+            </p>
+
+            <div class="level-footer">
+                ${statusHTML}
+            </div>
+        `;
+
+
+        container.appendChild(card);
+    });
+
+
+    /*
+    Añadimos los eventos después
+    de crear las tarjetas.
+    */
+
+    document
+        .querySelectorAll(
+            ".level-button"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const levelId =
+                        Number(
+                            button.dataset.level
+                        );
+
+                    startLevel(
+                        levelId
+                    );
+                }
+            );
+
+        });
+
+}
+</script>
