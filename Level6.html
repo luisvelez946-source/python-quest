@@ -1,0 +1,38 @@
+<script>
+LEVEL_CONTENT[6] = {
+    title: "Fintech TuCuenta: Detección de Fraude y Normalización",
+    description: "Procesarás diccionarios de usuarios, limpiarás estructuras de datos atípicas y validarás transacciones financieras.",
+    challenges: [
+        { id: "L6-01", type: "lesson", label: "DESCUBRE", icon: "💳", title: "Estructuras clave-valor en transacciones", content: `<p>En las pasarelas de pago, los datos del cliente se representan con diccionarios para acceder a ellos rápidamente por clave.</p><div class="concept-grid"><div class="concept-item"><strong>dict { }</strong><span>Estructura de claves y valores</span></div><div class="concept-item"><strong>.get()</strong><span>Acceso seguro sin error</span></div><div class="concept-item"><strong>.items()</strong><span>Recorre pares clave-valor</span></div><div class="concept-item"><strong>set { }</strong><span>Elimina duplicados</span></div></div><pre class="code-block"><code>transaccion = {
+    "usuario": "usr_99",
+    "monto": 450.00,
+    "score_riesgo": 0.12
+}
+
+if transaccion.get("score_riesgo", 0) > 0.8:
+    print("Congelar cuenta: alto riesgo")
+else:
+    print("Transacción aprobada")</code></pre><div class="tip-box">💡 El método .get() evita un KeyError cuando una clave no existe en el registro.</div>` },
+
+        { id: "L6-02", type: "choice", label: "OBSERVA", icon: "🔎", title: "Búsqueda segura por clave", question: "Dado el diccionario cliente, ¿cuál es la forma segura de consultar la clave 'tarjeta' sin provocar un error si no existe?", code: `cliente = {"id": 101, "saldo": 5000}`, options: [`cliente["tarjeta"]`, `cliente.get("tarjeta", "No registrada")`, `cliente.find("tarjeta")`, `cliente.search("tarjeta")`], correct: 1, xp: 10, correctFeedback: "Correcto. .get() devuelve el valor por defecto si la clave no existe.", incorrectFeedback: "Acceder con corchetes a una clave inexistente produce un KeyError." },
+
+        { id: "L6-08", type: "accessLab", label: "EXPERIMENTA", icon: "🔐", title: "Regla antifraude", prompt: "La transacción se congela si el monto es alto, o si el país es distinto y además el horario es inusual. Deja el monto normal (sin activar) y logra que aun así se congele.", code: `if monto_alto or (pais_distinto and horario_inusual):
+    print("Congelar transacción")
+else:
+    print("Aprobar transacción")`, toggles: [{ id: "monto", label: "Monto alto" }, { id: "pais", label: "País distinto al habitual" }, { id: "horario", label: "Horario inusual" }], rule: v => v.monto || (v.pais && v.horario), goal: v => !v.monto && v.pais && v.horario, allowedText: "Resultado: Congelar transacción.", deniedText: "Resultado: Aprobar transacción.", xp: 20, correctFeedback: "Con el monto normal, la transacción solo se congela si el país y el horario son sospechosos a la vez.", incorrectFeedback: "Deja el monto sin activar: necesitas la combinación entre paréntesis, donde ambas señales deben cumplirse con and." },
+
+        { id: "L6-03", type: "choice", label: "RESUELVE", icon: "⚙️", title: "Depuración de duplicados", question: "Tienes una lista de IDs de transacciones repetidas. ¿Qué estructura entrega los IDs únicos de inmediato?", code: `ids = [401, 402, 401, 405, 402]`, options: ["list(ids)", "tuple(ids)", "set(ids)", "dict(ids)"], correct: 2, xp: 10, correctFeedback: "Excelente. Convertir la lista en un conjunto con set() elimina los elementos repetidos.", incorrectFeedback: "Piensa en la colección de Python que no admite elementos duplicados." },
+
+        { id: "L6-09", type: "listLab", label: "PRACTICA", icon: "📋", title: "Limpieza de IDs de transacciones", varName: "ids", unit: "IDs únicos", numeric: true, initialItems: [401, 402, 401, 405, 402], actions: [{ id: "append", label: "ids.append(407)", op: "append", value: 407 }, { id: "unique", label: "ids = list(set(ids))", op: "unique" }, { id: "count", label: "len(ids)", op: "count" }], steps: [{ instruction: "Entró una nueva transacción: registra el ID 407 al final de la lista.", action: "append" }, { instruction: "Hay IDs repetidos: elimínalos convirtiendo la lista en un conjunto y de vuelta a lista.", action: "unique" }, { instruction: "Verifica cuántos IDs únicos quedaron.", action: "count" }], xp: 20, correctFeedback: "Lista depurada: set() eliminó los duplicados y len() confirmó el total.", incorrectFeedback: "Lee la instrucción y elige la operación que produce ese cambio en la lista." },
+
+        { id: "L6-04", type: "choice", label: "PREDICE", icon: "📊", title: "Iteración sobre transacciones", question: "En cada vuelta de este bucle, ¿qué representan k y v?", code: `for k, v in cuenta.items():
+    print(k, v)`, options: ["k es la posición y v es el valor.", "k es la clave y v es el valor.", "k es la cantidad y v es la variable.", "k es el resultado y v es la clave."], correct: 1, xp: 10, correctFeedback: "Exacto. .items() entrega cada par (clave, valor) del diccionario.", incorrectFeedback: "Recuerda qué significan las letras k y v al recorrer un diccionario." },
+
+        { id: "L6-05", type: "choice", label: "DEPURA", icon: "🛠️", title: "Modificación de saldos", question: "Quieres sumar 150 al saldo actual del cliente. ¿Cuál es la sintaxis válida?", code: `cliente = {"id": 101, "saldo": 5000}`, options: [`cliente["saldo"] += 150`, `cliente.update_val("saldo", 150)`, `cliente.saldo =+ 150`, `add(cliente["saldo"], 150)`], correct: 0, xp: 10, correctFeedback: "Muy bien. El operador += incrementa directamente el valor de esa clave.", incorrectFeedback: "Accede a la clave con corchetes y usa el operador de asignación acumulativa." },
+
+        { id: "L6-07", type: "builder", label: "CONSTRUYE", icon: "⚙️", title: "Recorre una cuenta", question: "Construye un programa que recorra el diccionario cuenta y muestre cada clave junto a su valor.", pieces: [{ id: "wrongPrint", text: `print(clave, valor)` }, { id: "for", text: `for clave, valor in cuenta.items():` }, { id: "data", text: `cuenta = {"usuario": "usr_99", "saldo": 450}` }, { id: "wrongFor", text: `for clave, valor in cuenta:` }, { id: "print", text: `    print(clave, valor)` }], expected: ["data", "for", "print"], xp: 20, correctFeedback: "Programa construido: .items() entrega pares y el print queda dentro del bucle.", incorrectFeedback: "Para desempaquetar clave y valor necesitas .items(), y el print debe ir indentado dentro del for." },
+
+        { id: "L6-06", type: "choice", label: "DEMUESTRA", icon: "🏆", title: "Validación general de diccionarios", question: "¿Qué devuelve len(transaccion) si el diccionario tiene 4 pares clave-valor?", options: ["8, porque cuenta claves y valores por separado.", "4, el número de claves.", "Un TypeError.", "La suma de los valores."], correct: 1, xp: 20, correctFeedback: "Misión completada. len() cuenta los elementos de primer nivel, que en un diccionario son sus claves.", incorrectFeedback: "len() cuenta cuántos pares tiene el diccionario, no sus valores ni su contenido." }
+    ]
+};
+</script>
