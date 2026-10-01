@@ -1,38 +1,50 @@
 <script>
-LEVEL_CONTENT[6] = {
-    title: "Fintech TuCuenta: Detección de Fraude y Normalización",
-    description: "Procesarás diccionarios de usuarios, limpiarás estructuras de datos atípicas y validarás transacciones financieras.",
+LEVEL_CONTENT[7] = {
+    title: "Logística E-commerce: Control de Inventario y Envíos",
+    description: "Automatizarás el procesamiento de pedidos y el control de inventario recorriendo listas con bucles y controlando su flujo.",
     challenges: [
-        { id: "L6-01", type: "lesson", label: "DESCUBRE", icon: "💳", title: "Estructuras clave-valor en transacciones", content: `<p>En las pasarelas de pago, los datos del cliente se representan con diccionarios para acceder a ellos rápidamente por clave.</p><div class="concept-grid"><div class="concept-item"><strong>dict { }</strong><span>Estructura de claves y valores</span></div><div class="concept-item"><strong>.get()</strong><span>Acceso seguro sin error</span></div><div class="concept-item"><strong>.items()</strong><span>Recorre pares clave-valor</span></div><div class="concept-item"><strong>set { }</strong><span>Elimina duplicados</span></div></div><pre class="code-block"><code>transaccion = {
-    "usuario": "usr_99",
-    "monto": 450.00,
-    "score_riesgo": 0.12
-}
+        { id: "L7-01", type: "lesson", label: "DESCUBRE", icon: "📦", title: "Procesamiento masivo de órdenes", content: `<p>En plataformas e-commerce, los pedidos se procesan uno a uno recorriendo listas de paquetes.</p><div class="concept-grid"><div class="concept-item"><strong>for item in lista</strong><span>Recorre elemento a elemento</span></div><div class="concept-item"><strong>break</strong><span>Detiene el ciclo de inmediato</span></div><div class="concept-item"><strong>continue</strong><span>Salta a la siguiente iteración</span></div><div class="concept-item"><strong>range()</strong><span>Genera secuencias numéricas</span></div></div><pre class="code-block"><code>pedidos = [105, 0, 310, 450]
 
-if transaccion.get("score_riesgo", 0) > 0.8:
-    print("Congelar cuenta: alto riesgo")
+for monto in pedidos:
+    if monto == 0:
+        print("Pedido inválido, omitiendo...")
+        continue
+    print(f"Procesando pago de: {monto}")</code></pre><div class="tip-box">💡 continue permite ignorar datos corruptos sin detener todo el proceso de envíos.</div>` },
+
+        { id: "L7-02", type: "choice", label: "OBSERVA", icon: "🔎", title: "Interrupción de procesos críticos", question: "Si el sensor de la banda transportadora reporta un peso negativo, el proceso debe detenerse de inmediato. ¿Qué instrucción va en el espacio marcado?", code: `for peso in pesos:
+    if peso < 0:
+        ________`, options: ["stop", "break", "exit()", "continue"], correct: 1, xp: 10, correctFeedback: "Correcto. break interrumpe el bucle al instante.", incorrectFeedback: "Recuerda la palabra reservada de Python que sale de un bucle antes de terminar." },
+
+        { id: "L7-08", type: "accessLab", label: "EXPERIMENTA", icon: "🔐", title: "Despacho automático de pedidos", prompt: "Un pedido sale si está pagado, tiene stock o es preventa, y la dirección es válida. Logra que se despache un pedido que NO tiene stock.", code: `if pagado and (hay_stock or es_preventa) and not direccion_invalida:
+    print("Despachar pedido")
 else:
-    print("Transacción aprobada")</code></pre><div class="tip-box">💡 El método .get() evita un KeyError cuando una clave no existe en el registro.</div>` },
+    print("Retener pedido")`, toggles: [{ id: "pagado", label: "Pedido pagado" }, { id: "stock", label: "Hay stock" }, { id: "preventa", label: "Es preventa" }, { id: "invalida", label: "Dirección inválida" }], rule: v => v.pagado && (v.stock || v.preventa) && !v.invalida, goal: v => v.pagado && !v.stock && v.preventa && !v.invalida, allowedText: "Resultado: Despachar pedido.", deniedText: "Resultado: Retener pedido.", xp: 20, correctFeedback: "Sin stock, el pedido solo sale si es preventa, está pagado y la dirección es válida.", incorrectFeedback: "Deja Hay stock sin activar. El paréntesis con or necesita que se cumpla la otra opción." },
 
-        { id: "L6-02", type: "choice", label: "OBSERVA", icon: "🔎", title: "Búsqueda segura por clave", question: "Dado el diccionario cliente, ¿cuál es la forma segura de consultar la clave 'tarjeta' sin provocar un error si no existe?", code: `cliente = {"id": 101, "saldo": 5000}`, options: [`cliente["tarjeta"]`, `cliente.get("tarjeta", "No registrada")`, `cliente.find("tarjeta")`, `cliente.search("tarjeta")`], correct: 1, xp: 10, correctFeedback: "Correcto. .get() devuelve el valor por defecto si la clave no existe.", incorrectFeedback: "Acceder con corchetes a una clave inexistente produce un KeyError." },
+        { id: "L7-03", type: "choice", label: "RESUELVE", icon: "⚙️", title: "Omisión de productos sin stock", question: "Quieres saltarte los productos con stock 0 sin romper el bucle. ¿Qué sentencia va en el espacio marcado?", code: `for producto in inventario:
+    if producto["stock"] == 0:
+        ________
+    print(producto["nombre"])`, options: ["continue", "pass", "skip", "break"], correct: 0, xp: 10, correctFeedback: "Exacto. continue salta la iteración actual y pasa al siguiente producto.", incorrectFeedback: "pass no salta nada: es solo un marcador vacío. Busca la instrucción que pasa a la siguiente vuelta." },
 
-        { id: "L6-08", type: "accessLab", label: "EXPERIMENTA", icon: "🔐", title: "Regla antifraude", prompt: "La transacción se congela si el monto es alto, o si el país es distinto y además el horario es inusual. Deja el monto normal (sin activar) y logra que aun así se congele.", code: `if monto_alto or (pais_distinto and horario_inusual):
-    print("Congelar transacción")
-else:
-    print("Aprobar transacción")`, toggles: [{ id: "monto", label: "Monto alto" }, { id: "pais", label: "País distinto al habitual" }, { id: "horario", label: "Horario inusual" }], rule: v => v.monto || (v.pais && v.horario), goal: v => !v.monto && v.pais && v.horario, allowedText: "Resultado: Congelar transacción.", deniedText: "Resultado: Aprobar transacción.", xp: 20, correctFeedback: "Con el monto normal, la transacción solo se congela si el país y el horario son sospechosos a la vez.", incorrectFeedback: "Deja el monto sin activar: necesitas la combinación entre paréntesis, donde ambas señales deben cumplirse con and." },
+        { id: "L7-09", type: "listLab", label: "PRACTICA", icon: "📋", title: "Cola de pedidos", varName: "pedidos", unit: "pedidos", initialItems: ["P-104", "P-101", "P-103"], actions: [{ id: "append", label: 'pedidos.append("P-102")', op: "append", value: "P-102" }, { id: "sort", label: "pedidos.sort()", op: "sort" }, { id: "pop", label: "pedidos.pop()", op: "pop" }, { id: "count", label: "len(pedidos)", op: "count" }], steps: [{ instruction: "Entró un pedido nuevo: agrégalo al final de la cola.", action: "append" }, { instruction: "Ordena la cola para procesar los pedidos de menor a mayor.", action: "sort" }, { instruction: "Despacha el último pedido de la lista.", action: "pop" }, { instruction: "Verifica cuántos pedidos quedan en cola.", action: "count" }], xp: 20, correctFeedback: "Cola gestionada: agregaste, ordenaste, despachaste y contaste con métodos de lista.", incorrectFeedback: "Lee la instrucción y elige el método que produce ese cambio en la lista." },
 
-        { id: "L6-03", type: "choice", label: "RESUELVE", icon: "⚙️", title: "Depuración de duplicados", question: "Tienes una lista de IDs de transacciones repetidas. ¿Qué estructura entrega los IDs únicos de inmediato?", code: `ids = [401, 402, 401, 405, 402]`, options: ["list(ids)", "tuple(ids)", "set(ids)", "dict(ids)"], correct: 2, xp: 10, correctFeedback: "Excelente. Convertir la lista en un conjunto con set() elimina los elementos repetidos.", incorrectFeedback: "Piensa en la colección de Python que no admite elementos duplicados." },
+        { id: "L7-04", type: "choice", label: "PREDICE", icon: "📊", title: "Generación de códigos de seguimiento", question: "¿Cuántas iteraciones ejecuta este bucle al generar las etiquetas de envío?", code: `for i in range(1, 5):
+    print(i)`, options: ["5 iteraciones (1, 2, 3, 4, 5)", "4 iteraciones (1, 2, 3, 4)", "3 iteraciones (2, 3, 4)", "Ninguna: es un bucle infinito"], correct: 1, xp: 10, correctFeedback: "Muy bien. range(inicio, fin) no incluye el límite superior, así que genera 1, 2, 3 y 4.", incorrectFeedback: "En Python el valor final de range() nunca se incluye." },
 
-        { id: "L6-09", type: "listLab", label: "PRACTICA", icon: "📋", title: "Limpieza de IDs de transacciones", varName: "ids", unit: "IDs únicos", numeric: true, initialItems: [401, 402, 401, 405, 402], actions: [{ id: "append", label: "ids.append(407)", op: "append", value: 407 }, { id: "unique", label: "ids = list(set(ids))", op: "unique" }, { id: "count", label: "len(ids)", op: "count" }], steps: [{ instruction: "Entró una nueva transacción: registra el ID 407 al final de la lista.", action: "append" }, { instruction: "Hay IDs repetidos: elimínalos convirtiendo la lista en un conjunto y de vuelta a lista.", action: "unique" }, { instruction: "Verifica cuántos IDs únicos quedaron.", action: "count" }], xp: 20, correctFeedback: "Lista depurada: set() eliminó los duplicados y len() confirmó el total.", incorrectFeedback: "Lee la instrucción y elige la operación que produce ese cambio en la lista." },
+        { id: "L7-05", type: "choice", label: "DEPURA", icon: "🛠️", title: "Acumulador de compras", question: "Quieres sumar cada compra al total. ¿Qué línea va dentro del bucle?", code: `total = 0
+compras = [10, 20, 30]
 
-        { id: "L6-04", type: "choice", label: "PREDICE", icon: "📊", title: "Iteración sobre transacciones", question: "En cada vuelta de este bucle, ¿qué representan k y v?", code: `for k, v in cuenta.items():
-    print(k, v)`, options: ["k es la posición y v es el valor.", "k es la clave y v es el valor.", "k es la cantidad y v es la variable.", "k es el resultado y v es la clave."], correct: 1, xp: 10, correctFeedback: "Exacto. .items() entrega cada par (clave, valor) del diccionario.", incorrectFeedback: "Recuerda qué significan las letras k y v al recorrer un diccionario." },
+for c in compras:
+    ________`, options: ["total = total + compras", "total += c", "total.append(c)", "total =+ c"], correct: 1, xp: 10, correctFeedback: "Correcto. += suma el valor de c al acumulador total en cada vuelta.", incorrectFeedback: "Fíjate en qué variable cambia en cada vuelta. Además, =+ no acumula: solo asigna +c a total." },
 
-        { id: "L6-05", type: "choice", label: "DEPURA", icon: "🛠️", title: "Modificación de saldos", question: "Quieres sumar 150 al saldo actual del cliente. ¿Cuál es la sintaxis válida?", code: `cliente = {"id": 101, "saldo": 5000}`, options: [`cliente["saldo"] += 150`, `cliente.update_val("saldo", 150)`, `cliente.saldo =+ 150`, `add(cliente["saldo"], 150)`], correct: 0, xp: 10, correctFeedback: "Muy bien. El operador += incrementa directamente el valor de esa clave.", incorrectFeedback: "Accede a la clave con corchetes y usa el operador de asignación acumulativa." },
+        { id: "L7-07", type: "builder", label: "CONSTRUYE", icon: "⚙️", title: "Suma de pedidos válidos", question: "Dada la lista <code>pedidos = [105, 0, 310, 450]</code>, construye un programa que sume solo los montos mayores que 0 y muestre el total.", pieces: [{ id: "acc", text: `        total += monto` }, { id: "wrongIf", text: `    if monto == 0:` }, { id: "init", text: `total = 0` }, { id: "print", text: `print(total)` }, { id: "for", text: `for monto in pedidos:` }, { id: "wrongAcc", text: `        total =+ monto` }, { id: "if", text: `    if monto > 0:` }], expected: ["init", "for", "if", "acc", "print"], xp: 20, correctFeedback: "Programa construido: inicializas el acumulador, filtras dentro del bucle y muestras el total al final.", incorrectFeedback: "Piensa el orden: inicia el acumulador, recorre, filtra con >, acumula con += y muestra el total fuera del bucle." },
 
-        { id: "L6-07", type: "builder", label: "CONSTRUYE", icon: "⚙️", title: "Recorre una cuenta", question: "Construye un programa que recorra el diccionario cuenta y muestre cada clave junto a su valor.", pieces: [{ id: "wrongPrint", text: `print(clave, valor)` }, { id: "for", text: `for clave, valor in cuenta.items():` }, { id: "data", text: `cuenta = {"usuario": "usr_99", "saldo": 450}` }, { id: "wrongFor", text: `for clave, valor in cuenta:` }, { id: "print", text: `    print(clave, valor)` }], expected: ["data", "for", "print"], xp: 20, correctFeedback: "Programa construido: .items() entrega pares y el print queda dentro del bucle.", incorrectFeedback: "Para desempaquetar clave y valor necesitas .items(), y el print debe ir indentado dentro del for." },
+        { id: "L7-06", type: "choice", label: "DEMUESTRA", icon: "🏆", title: "Evaluación de un algoritmo de inventario", question: "¿Qué valor imprime este programa?", code: `conteo = 0
 
-        { id: "L6-06", type: "choice", label: "DEMUESTRA", icon: "🏆", title: "Validación general de diccionarios", question: "¿Qué devuelve len(transaccion) si el diccionario tiene 4 pares clave-valor?", options: ["8, porque cuenta claves y valores por separado.", "4, el número de claves.", "Un TypeError.", "La suma de los valores."], correct: 1, xp: 20, correctFeedback: "Misión completada. len() cuenta los elementos de primer nivel, que en un diccionario son sus claves.", incorrectFeedback: "len() cuenta cuántos pares tiene el diccionario, no sus valores ni su contenido." }
+for x in [True, False, True]:
+    if x:
+        conteo += 1
+
+print(conteo)`, options: ["0", "1", "2", "3"], correct: 2, xp: 20, correctFeedback: "Misión completada. conteo aumentó solo cuando x fue True, es decir, 2 veces.", incorrectFeedback: "Cuenta cuántos elementos de la lista cumplen la condición if x." }
     ]
 };
 </script>
