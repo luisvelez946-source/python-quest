@@ -1,0 +1,263 @@
+<script>
+const Game = (() => {
+
+    const STORAGE_KEY = "pythonQuestProfiles";
+
+    const defaultState = () => ({
+        xp: 0,
+        unlockedLevels: [1],
+        completedChallenges: [],
+        completedLevels: [],
+        attempts: {}
+    });
+
+    let data = loadData();
+
+    function loadData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (!saved) {
+            return { activeProfileId: null, institutionalProfileId: null, profiles: {} };
+        }
+
+        try {
+            const parsed = JSON.parse(saved);
+
+            if (parsed.profiles) {
+                return {
+                    institutionalProfileId: null,
+                    ...parsed
+                };
+            }
+
+            /* Conserva el avance creado antes de que existieran perfiles. */
+            const id = "progreso-anterior";
+            return {
+                activeProfileId: id,
+                institutionalProfileId: null,
+                profiles: {
+                    [id]: {
+                        id,
+                        name: "Progreso anterior",
+                        createdAt: new Date().toISOString(),
+                        state: { ...defaultState(), ...parsed }
+                    }
+                }
+            };
+        } catch (error) {
+            console.error("No se pudieron cargar los perfiles.", error);
+            return { activeProfileId: null, institutionalProfileId: null, profiles: {} };
+        }
+    }
+
+    function activeProfile() {
+        return data.profiles[data.activeProfileId] || null;
+    }
+
+    function state() {
+        return activeProfile()?.state || defaultState();
+    }
+
+    function save() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        document.dispatchEvent(new CustomEvent("game:changed", {
+            detail: getSnapshot()
+        }));
+    }
+
+    function getSnapshot() {
+        const profile = activeProfile();
+        return profile
+            ? structuredClone({ profile, state: profile.state })
+            : null;
+    }
+
+    function createProfile(name) {
+        if (data.institutionalProfileId) {
+            return null;
+        }
+
+        const cleanName = name.trim();
+
+        if (!cleanName) {
+            return null;
+        }
+
+        const id = `student-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+        data.profiles[id] = {
+            id,
+            name: cleanName,
+            createdAt: new Date().toISOString(),
+            state: defaultState()
+        };
+        data.activeProfileId = id;
+        save();
+        return data.profiles[id];
+    }
+
+    function selectProfile(profileId) {
+        if (
+            data.institutionalProfileId &&
+            profileId !== data.institutionalProfileId
+        ) {
+            return false;
+        }
+
+        if (!data.profiles[profileId]) {
+            return false;
+        }
+
+        data.activeProfileId = profileId;
+        save();
+        return true;
+    }
+
+    function listProfiles() {
+        const profiles = data.institutionalProfileId
+            ? [data.profiles[data.institutionalProfileId]]
+            : Object.values(data.profiles);
+
+        return profiles
+            .filter(Boolean)
+            .map(profile => structuredClone(profile));
+    }
+    function normalizeProgress(remoteState) {
+    const recovered = {
+        ...defaultState(),
+        ...(remoteState || {})
+    };
+
+    recovered.xp = Number(recovered.xp) || 0;
+    recovered.completedLevels = [...new Set(
+        (recovered.completedLevels || [])
+            .map(Number)
+            .filter(Number.isFinite)
+    )];
+
+    recovered.completedChallenges = [...new Set(
+        (recovered.completedChallenges || []).map(String)
+    )];
+
+    /* Si una sincronización anterior guardó los retos pero no la marca del
+       nivel, se reconstruye esa marca al iniciar sesión. */
+    if (typeof LEVEL_CONTENT !== "undefined") {
+        Object.entries(LEVEL_CONTENT).forEach(([levelId, level]) => {
+            const challenges = level.challenges || [];
+            const isComplete = challenges.length > 0 && challenges.every(
+                challenge => recovered.completedChallenges.includes(challenge.id)
+            );
+
+            if (isComplete && !recovered.completedLevels.includes(Number(levelId))) {
+                recovered.completedLevels.push(Number(levelId));
+            }
+        });
+    }
+
+    recovered.unlockedLevels = [...new Set([
+        1,
+        ...(recovered.unlockedLevels || [])
+            .map(Number)
+            .filter(Number.isFinite),
+        ...recovered.completedLevels.map(levelId => levelId + 1)
+    ])].sort((a, b) => a - b);
+
+    recovered.attempts = recovered.attempts || {};
+
+    return recovered;
+}
+    function startInstitutionalSession(user, remoteState) {
+        const id = user.id;
+        data.profiles[id] = {
+            id,
+            name: user.name,
+            email: user.email || null,
+            createdAt: new Date().toISOString(),
+            state: normalizeProgress(remoteState)
+        };
+        data.activeProfileId = id;
+        data.institutionalProfileId = id;
+        save();
+    }
+
+    function isInstitutionalSession() {
+        return Boolean(data.institutionalProfileId);
+    }
+    function endInstitutionalSession() {
+    const id = data.institutionalProfileId;
+
+    // El avance en Google Sheets no se borra.
+    // Solo se elimina la copia de este usuario en el navegador actual.
+    if (id) {
+        delete data.profiles[id];
+    }
+
+    data.activeProfileId = null;
+    data.institutionalProfileId = null;
+    save();
+}
+    function getActiveProfile() {
+        const profile = activeProfile();
+        return profile ? structuredClone(profile) : null;
+    }
+
+    function getXP() { return state().xp; }
+    function isLevelUnlocked(levelId) { return state().unlockedLevels.includes(levelId); }
+    function isLevelCompleted(levelId) { return state().completedLevels.includes(levelId); }
+    function isChallengeCompleted(challengeId) { return state().completedChallenges.includes(challengeId); }
+    function getAttempts(challengeId) { return state().attempts[challengeId] || 0; }
+
+    function registerAttempt(challengeId) {
+        const current = state();
+        current.attempts[challengeId] = getAttempts(challengeId) + 1;
+        save();
+    }
+
+    function completeChallenge(challengeId, xpReward = 0) {
+        const current = state();
+
+        if (current.completedChallenges.includes(challengeId)) {
+            return false;
+        }
+
+        current.completedChallenges.push(challengeId);
+        current.xp += xpReward;
+        save();
+        return true;
+    }
+
+    function completeLevel(levelId, nextLevel = null) {
+        const current = state();
+
+        if (!current.completedLevels.includes(levelId)) {
+            current.completedLevels.push(levelId);
+        }
+
+        if (nextLevel !== null && !current.unlockedLevels.includes(nextLevel)) {
+            current.unlockedLevels.push(nextLevel);
+        }
+
+        save();
+    }
+
+    return {
+        createProfile,
+        selectProfile,
+        startInstitutionalSession,
+        isInstitutionalSession,
+        endInstitutionalSession,
+        listProfiles,
+        getActiveProfile,
+        getSnapshot,
+        getXP,
+        isLevelUnlocked,
+        isLevelCompleted,
+        isChallengeCompleted,
+        registerAttempt,
+        getAttempts,
+        completeChallenge,
+        completeLevel
+    };
+})();
+
+
+</script>
