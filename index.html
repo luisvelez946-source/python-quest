@@ -1,132 +1,311 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Python Quest</title>
+
     <style>
-        body { font-family: Arial, sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: 90%; max-width: 600px; }
-        .card { background: #1e293b; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .badge { background: #38bdf8; color: #0f172a; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .options-grid button { width: 100%; padding: 10px; margin: 5px 0; background: #334155; color: white; border: none; border-radius: 5px; cursor: pointer; text-align: left; }
-        .options-grid button:hover { background: #475569; }
-        .feedback { margin-top: 10px; padding: 10px; border-radius: 5px; display: none; font-weight: bold; }
-        .success { background: #15803d; color: white; }
-        .error { background: #b91c1c; color: white; }
-        .next-btn { background: #22c55e; width: 100%; padding: 10px; margin-top: 10px; display: none; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; color: white; }
-        .code-block { background: #020617; padding: 10px; border-radius: 5px; color: #38bdf8; overflow-x: auto; }
-        .tip-box { background: #334155; padding: 8px; border-left: 4px solid #38bdf8; margin-top: 8px; font-size: 13px; }
-        .level-select { width: 100%; padding: 8px; margin-bottom: 15px; background: #334155; color: white; border: none; border-radius: 5px; }
-    </style>
+  <?!= include("Style"); ?>
+  <?!= include("LevelsStyle"); ?>
+  <?!= include("ChallengesStyle"); ?>
+  <?!= include("ProfilesStyle"); ?>
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>🚀 Python Quest</h1>
-    
-    <label for="select-level"><strong>Selecciona un Nivel:</strong></label>
-    <select id="select-level" class="level-select" onchange="changeLevel(this.value)">
-        <option value="2">Nivel 2: Fábrica Alpina</option>
-        <option value="3">Nivel 3: Fintech TuCuenta</option>
-        <option value="4">Nivel 4: Logística E-commerce</option>
-    </select>
+<main class="app">
 
-    <div class="card">
-        <span id="badge" class="badge"></span>
-        <h2 id="title" style="margin: 10px 0;"></h2>
-        <div id="content-area"></div>
-        <div id="options" class="options-grid"></div>
-        <div id="feedback" class="feedback"></div>
-        <button id="btn-next" class="next-btn" onclick="nextChallenge()">SIGUIENTE RETO ➔</button>
-    </div>
+    <!-- =========================================
+         PERFILES DE ESTUDIANTES
+    ========================================== -->
+
+    <section id="profile-screen" class="screen active">
+
+        <div class="profile-panel">
+
+            <div class="python-icon">🐍</div>
+
+            <p class="eyebrow">PYTHON QUEST</p>
+
+            <h1>¿Quién aprende hoy?</h1>
+
+            <p class="subtitle">
+                Elige tu perfil para guardar tu avance y
+                continuar exactamente donde quedaste.
+            </p>
+
+            <div id="auth-panel" class="auth-panel" hidden>
+                <form id="login-form" class="new-profile-form">
+                    <label for="login-code">Código estudiantil</label>
+                    <input id="login-code" type="text" autocomplete="username" required>
+                    <label for="login-pin">PIN de 6 dígitos</label>
+                    <input id="login-pin" type="password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="current-password" required>
+                    <button class="primary-button" type="submit">INICIAR SESIÓN →</button>
+                </form>
+                <details class="register-details">
+                    <summary>¿Primera vez? Crea tu cuenta</summary>
+                    <form id="register-form" class="new-profile-form">
+                        <label for="register-name">Nombre completo</label>
+                        <input id="register-name" type="text" maxlength="50" required>
+                        <label for="register-code">Código estudiantil</label>
+                        <input id="register-code" type="text" required>
+                        <label for="register-pin">Crea un PIN de 6 dígitos</label>
+                        <input id="register-pin" type="password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required>
+                        <button class="secondary-button" type="submit">CREAR CUENTA</button>
+                    </form>
+                </details>
+                <p id="auth-error" class="access-error" hidden></p>
+            </div>
+
+            <div id="profiles-list" class="profiles-list"></div>
+
+            <form id="new-profile-form" class="new-profile-form">
+                <label for="new-profile-name">Crear perfil</label>
+                <div class="profile-form-row">
+                    <input id="new-profile-name" type="text" maxlength="50"
+                           placeholder="Escribe tu nombre" required>
+                    <button class="primary-button" type="submit">ENTRAR →</button>
+                </div>
+            </form>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         PANTALLA DE INICIO
+    ========================================== -->
+
+    <section id="home-screen" class="screen">
+
+        <div class="hero">
+
+            <div class="python-icon">
+                🐍
+            </div>
+
+            <p class="eyebrow">
+                UNA AVENTURA DE PROGRAMACIÓN
+            </p>
+
+            <h1>
+                PYTHON <span>QUEST</span>
+            </h1>
+
+            <p class="subtitle">
+                Aprende Python superando desafíos,
+                resolviendo problemas y desbloqueando niveles.
+            </p>
+
+            <button id="start-button" class="primary-button">
+                COMENZAR MISIÓN
+                <span>→</span>
+            </button>
+
+            <div class="features">
+
+                <div class="feature">
+                    <span>🧩</span>
+                    <p>Aprende</p>
+                </div>
+
+                <div class="feature">
+                    <span>⚙️</span>
+                    <p>Resuelve</p>
+                </div>
+
+                <div class="feature">
+                    <span>🏆</span>
+                    <p>Avanza</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         PANTALLA DE NIVELES
+    ========================================== -->
+
+    <section id="levels-screen" class="screen">
+
+        <header class="top-bar">
+
+            <div class="logo">
+                🐍 PYTHON QUEST
+            </div>
+
+            <div class="player-xp">
+                ⭐ <span class="xp-value">0</span> XP
+            </div>
+
+            <button class="profile-button" type="button">
+                👤 <span class="current-player-name">Perfil</span>
+            </button>
+
+        </header>
+
+
+        <div class="levels-container">
+
+            <div class="levels-header">
+
+                <p class="eyebrow">
+                    TU MISIÓN
+                </p>
+
+                <h2>
+                    Aprende Python,
+                    <span>nivel a nivel.</span>
+                </h2>
+
+                <p>
+                    Completa cada misión para desbloquear
+                    nuevos desafíos.
+                </p>
+
+            </div>
+
+
+            <!-- Los niveles serán creados desde JavaScript -->
+            <div id="levels-grid"
+                 class="levels-grid">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         PANTALLA DE RETOS
+    ========================================== -->
+
+    <section id="challenge-screen" class="screen">
+
+        <header class="top-bar">
+
+            <button id="back-levels-button"
+                    class="back-button">
+                ← Misiones
+            </button>
+
+            <div class="logo">
+                🐍 PYTHON QUEST
+            </div>
+
+            <div class="player-xp">
+                ⭐ <span class="xp-value">0</span> XP
+            </div>
+
+            <button class="profile-button" type="button">
+                👤 <span class="current-player-name">Perfil</span>
+            </button>
+
+        </header>
+
+
+        <div class="challenge-layout">
+
+            <!-- Cabecera de la misión -->
+
+            <div class="mission-header">
+
+                <div>
+
+                    <p id="mission-level"
+                       class="eyebrow">
+                        NIVEL 1
+                    </p>
+
+                    <h2 id="mission-title">
+                        Habla Python
+                    </h2>
+
+                    <p id="mission-description"
+                       class="mission-description">
+                    </p>
+
+                </div>
+
+
+                <div class="mission-progress">
+
+                    <div class="progress-text">
+
+                        <span>PROGRESO</span>
+
+                        <span id="progress-value">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-track">
+
+                        <div id="progress-bar"
+                             class="progress-bar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Aquí aparecerá cada actividad -->
+
+            <div id="challenge-container"
+                 class="challenge-container">
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- Se abre al seleccionar el recuadro con el nombre del estudiante. -->
+<div id="account-menu" class="account-menu" hidden>
+    <p class="account-menu-label">SESIÓN ACTIVA</p>
+    <strong id="account-menu-name">Perfil</strong>
+    <p class="account-menu-help">
+        Tu avance está guardado y seguirá disponible cuando vuelvas a iniciar sesión.
+    </p>
+    <button id="logout-button" class="logout-button" type="button">
+        Cerrar sesión
+    </button>
 </div>
 
-<script>
-    // Objeto global donde se cargan los niveles
-    const LEVEL_CONTENT = {};
-</script>
 
-<!-- Cargar los archivos locales guardados en Documentos -->
-<script src="nivel2.js"></script>
-<script src="nivel3.js"></script>
-<script src="nivel4.js"></script>
+<!--
+    IMPORTANTE:
+    El orden de los archivos JS importa.
+-->
 
-<script>
-    let currentLevel = 2;
-    let currentIndex = 0;
-
-    function loadLevel(levelNum) {
-        currentLevel = levelNum;
-        currentIndex = 0;
-        renderChallenge();
-    }
-
-    function changeLevel(levelNum) {
-        loadLevel(parseInt(levelNum));
-    }
-
-    function renderChallenge() {
-        const levelData = LEVEL_CONTENT[currentLevel];
-        if (!levelData || !levelData.challenges[currentIndex]) {
-            document.querySelector(".card").innerHTML = `
-                <h2 style="color: #22c55e; text-align: center;">🎉 ¡Nivel Completado!</h2>
-                <p style="text-align: center;">Has finalizado con éxito todos los ejercicios de este módulo.</p>
-            `;
-            return;
-        }
-
-        const item = levelData.challenges[currentIndex];
-        document.getElementById("badge").textContent = `${item.label} - ${item.id}`;
-        document.getElementById("title").textContent = item.title;
-        
-        const contentArea = document.getElementById("content-area");
-        const optionsBox = document.getElementById("options");
-        const feedbackEl = document.getElementById("feedback");
-        const nextBtn = document.getElementById("btn-next");
-
-        feedbackEl.style.display = "none";
-        nextBtn.style.display = "none";
-        optionsBox.innerHTML = "";
-
-        if (item.type === "lesson") {
-            contentArea.innerHTML = item.content;
-            nextBtn.style.display = "block";
-        } else {
-            contentArea.innerHTML = `<p>${item.question}</p>`;
-            item.options.forEach((opt, idx) => {
-                const btn = document.createElement("button");
-                btn.textContent = `${String.fromCharCode(65 + idx)}) ${opt}`;
-                btn.onclick = () => checkAnswer(idx);
-                optionsBox.appendChild(btn);
-            });
-        }
-    }
-
-    function checkAnswer(selectedIndex) {
-        const item = LEVEL_CONTENT[currentLevel].challenges[currentIndex];
-        const feedbackEl = document.getElementById("feedback");
-        
-        feedbackEl.style.display = "block";
-
-        if (selectedIndex === item.correct) {
-            feedbackEl.className = "feedback success";
-            feedbackEl.textContent = item.correctFeedback;
-            document.getElementById("btn-next").style.display = "block";
-        } else {
-            feedbackEl.className = "feedback error";
-            feedbackEl.textContent = item.incorrectFeedback;
-        }
-    }
-
-    function nextChallenge() {
-        currentIndex++;
-        renderChallenge();
-    }
-
-    // Arrancar con el Nivel 2 al abrir
-    loadLevel(2);
-</script>
+<?!= include("Game"); ?>
+<?!= include("Sync"); ?>
+<?!= include("Levels"); ?>
+<?!= include("Challenges"); ?>
+<?!= include("Level2"); ?>
+<?!= include("Level3"); ?>
+<?!= include("FinalMission"); ?>
+<?!= include("Level5"); ?>
+<?!= include("Level6"); ?>
+<?!= include("Level7"); ?>
+<?!= include("Level8"); ?>
+<?!= include("App"); ?>
 
 </body>
+
 </html>
