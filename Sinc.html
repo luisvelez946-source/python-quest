@@ -1,0 +1,83 @@
+<script>
+const Sync = (() => {
+    let sessionToken = null;
+    let pendingProgress = null;
+    let progressIsSaving = false;
+    function isServerEnvironment() {
+        return true;
+    }
+    function call(method, ...args) {
+        return new Promise((resolve, reject) => {
+            google.script.run
+                .withSuccessHandler(resolve)
+                .withFailureHandler(reject)[method](...args);
+        });
+    }
+    function parseSession(response) {
+    if (!response) {
+        throw new Error("El servidor no devolvió una sesión válida.");
+    }
+    return typeof response === "string"
+        ? JSON.parse(response)
+        : response;
+}
+async function register(name, code, pin) {
+    const session = parseSession(
+        await call("registerStudent", { name, code, pin })
+    );
+    sessionToken = session.token;
+    return {
+        user: session.user,
+        state: session.state
+    };
+}
+async function login(code, pin) {
+    const session = parseSession(
+        await call("loginStudent", code, pin)
+    );
+    sessionToken = session.token;
+    return {
+        user: session.user,
+        state: session.state
+    };
+}
+    function saveProgress(snapshot) {
+        if (!isServerEnvironment() || !sessionToken || !snapshot) return;
+
+        /* Conserva siempre el estado más reciente y evita que una petición
+           antigua sobrescriba el avance nuevo al llegar tarde al servidor. */
+        pendingProgress = snapshot.state;
+        sendPendingProgress();
+    }
+
+    function sendPendingProgress() {
+        if (progressIsSaving || !pendingProgress || !sessionToken) return;
+
+        const stateToSave = pendingProgress;
+        const tokenToUse = sessionToken;
+        pendingProgress = null;
+        progressIsSaving = true;
+
+        google.script.run
+            .withSuccessHandler(() => {
+                progressIsSaving = false;
+                sendPendingProgress();
+            })
+            .withFailureHandler(error => {
+                progressIsSaving = false;
+                console.warn("No se pudo guardar el progreso.", error);
+                sendPendingProgress();
+            })
+            .saveProgress(tokenToUse, stateToSave);
+    }
+
+    function clearSession() {
+        sessionToken = null;
+        pendingProgress = null;
+    }
+
+    return { isServerEnvironment, register, login, saveProgress, clearSession };
+})();
+
+
+</script>
