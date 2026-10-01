@@ -1,0 +1,130 @@
+.profile-button {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 11px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+}
+
+.profile-button:hover {
+    border-color: var(--primary-light);
+    color: var(--text);
+}
+
+.profile-panel {
+    width: min(620px, 92%);
+    margin: 0 auto;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.profile-panel h1 {
+    font-size: clamp(34px, 7vw, 58px);
+    margin-bottom: 20px;
+}
+
+.profiles-list {
+    display: grid;
+    gap: 12px;
+    margin: 35px 0 28px;
+}
+
+.profile-choice {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+}
+
+.profile-choice:hover {
+    border-color: var(--primary);
+    background: rgba(124, 92, 255, 0.09);
+}
+
+.profile-choice-icon { font-size: 24px; }
+.profile-choice strong { display: block; }
+.profile-choice small { color: var(--text-secondary); }
+
+.access-error {
+    padding: 18px;
+    border: 1px solid rgba(255, 102, 122, 0.35);
+    border-radius: 12px;
+    background: rgba(255, 102, 122, 0.08);
+    color: #ffb2bc;
+}
+
+.new-profile-form {
+    padding-top: 25px;
+    border-top: 1px solid var(--border);
+    text-align: left;
+}
+
+.new-profile-form label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.profile-form-row { display: flex; gap: 10px; }
+
+.profile-form-row input {
+    min-width: 0;
+    flex: 1;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+
+.auth-panel {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.auth-panel input {
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+
+.auth-panel .primary-button,
+.auth-panel .secondary-button {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.register-details {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.register-details summary {
+    cursor: pointer;
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+    .profile-button span { display: none; }
+    .profile-form-row { flex-direction: column; }
+}
