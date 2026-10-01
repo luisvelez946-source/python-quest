@@ -1,107 +1,22 @@
+<script>
 LEVEL_CONTENT[2] = {
-    title: "Fábrica Alpina: Control de Calidad y Monitoreo",
-    description: "Analizarás lotes de producción, lecturas de sensores térmicos y automatizarás decisiones de planta mediante control de flujo.",
+    title: "El almacén de datos",
+    description: "El laboratorio recuperó sus registros. Decide cómo organizar cada dato y repara su inventario.",
     challenges: [
-        { 
-            id: "L2-01", 
-            type: "lesson", 
-            label: "DESCUBRE", 
-            icon: "🥛", 
-            title: "Control Térmico y Colecciones de Sensores", 
-            content: `<p>En la planta de pasteurización de Alpina, el monitoreo constante evita pérdidas de materia prima.</p>
-            <div class="concept-grid">
-                <div class="concept-item"><strong>if-elif-else</strong><span>Toma de decisiones según rangos</span></div>
-                <div class="concept-item"><strong>for</strong><span>Iteración sobre lecturas de sensores</span></div>
-                <div class="concept-item"><strong>while</strong><span>Procesamiento continuo hasta alerta</span></div>
-                <div class="concept-item"><strong>list [ ]</strong><span>Historial ordenado de temperaturas</span></div>
-            </div>
-            <pre class="code-block"><code>lecturas = [72, 68, 85, 70]
-for temp in lecturas:
-    if temp > 80:
-        print("🚨 Alerta Crítica: Tanque sobrecalentado")
-    else:
-        print("✅ Operación Nominal")</code></pre>
-            <div class="tip-box">💡 Los condicionales dentro de bucles permiten filtrar anomalías en tiempo real sobre miles de datos industriales.</div>` 
-        },
-        { 
-            id: "L2-02", 
-            type: "choice", 
-            label: "OBSERVA", 
-            icon: "🔎", 
-            title: "Evaluación de Rangos de Operación", 
-            question: "Si la temperatura ideal del tanque está entre 68°C y 78°C, ¿cuál es la estructura lógica correcta para validar que 'temp' sea segura?", 
-            options: [
-                "if temp == 68 and temp == 78:", 
-                "if 68 <= temp <= 78:", 
-                "if temp > 68 or temp < 78:", 
-                "if temp == 68 to 78:"
-            ], 
-            correct: 1, 
-            xp: 10, 
-            correctFeedback: "¡Excelente! La comparación encadenada 68 <= temp <= 78 evalúa perfectamente el rango inclusivo.", 
-            incorrectFeedback: "Revisa cómo evaluar un rango inclusivo donde la variable debe ser simultáneamente mayor/igual al límite inferior y menor/igual al superior." 
-        },
-        { 
-            id: "L2-03", 
-            type: "choice", 
-            label: "RESUELVE", 
-            icon: "⚙️", 
-            title: "Conteo de Alertas en Lotes", 
-            question: "Analizas la lista lecturas = [75, 82, 69, 90, 71]. ¿Cuántas veces se ejecuta el bloque dentro del 'if temp > 80:'?", 
-            options: ["1 vez", "2 veces", "3 veces", "5 veces"], 
-            correct: 1, 
-            xp: 10, 
-            correctFeedback: "Correcto. Los valores 82 y 90 son mayores a 80, por lo que el bloque interno se ejecuta 2 veces.", 
-            incorrectFeedback: "Cuenta cuántos elementos dentro de la lista superan estrictamente el valor de 80." 
-        },
-        { 
-            id: "L2-04", 
-            type: "choice", 
-            label: "PREDICE", 
-            icon: "🏭", 
-            title: "Control de Carga en Tolva", 
-            question: "Un bucle 'while peso < 1000:' llena un contenedor de leche en polvo. Si el incremento de peso dentro del bucle no se actualiza, ¿qué ocurre con el sistema?", 
-            options: [
-                "El programa termina inmediatamente.", 
-                "Se genera un bucle infinito y se bloquea el servidor.", 
-                "Python asigna 1000 automáticamente a la variable peso.", 
-                "El bucle se convierte en un condicional 'if'."
-            ], 
-            correct: 1, 
-            xp: 10, 
-            correctFeedback: "Muy bien. Si la variable de control nunca cambia, la condición sigue siendo verdadera por siempre.", 
-            incorrectFeedback: "Piensa qué le ocurre a la condición si la variable 'peso' no se modifica dentro del bucle." 
-        },
-        { 
-            id: "L2-05", 
-            type: "choice", 
-            label: "DEPURA", 
-            icon: "🛠️", 
-            title: "Identificación de Anomalías", 
-            question: "Quieres detener la inspección inmediatamente cuando encuentres un lote contaminado ('CRÍTICO'). ¿Qué instrucción usas dentro del bucle?", 
-            options: ["continue", "pass", "break", "exit()"], 
-            correct: 2, 
-            xp: 10, 
-            correctFeedback: "Exacto. 'break' interrumpe y sale de inmediato del bucle al detectar la falla.", 
-            incorrectFeedback: "'continue' salta a la siguiente iteración; busca la instrucción para salir inmediatamente del bucle." 
-        },
-        { 
-            id: "L2-06", 
-            type: "choice", 
-            label: "DEMUESTRA", 
-            icon: "🏆", 
-            title: "Sintaxis de Bucle Sobre Listas", 
-            question: "¿Cuál es la forma pythónica de recorrer elemento por elemento la lista 'lotes_produccion'?", 
-            options: [
-                "for i in range(lotes_produccion):", 
-                "for lote in lotes_produccion:", 
-                "foreach lote in lotes_produccion:", 
-                "while lotes_produccion.hasNext():"
-            ], 
-            correct: 1, 
-            xp: 20, 
-            correctFeedback: "¡Misión completada! 'for elemento in coleccion:' es la sintaxis nativa y limpia de Python.", 
-            incorrectFeedback: "Recuerda que Python no requiere sintaxis estilo Java/C# como foreach o hasNext()." 
-        }
+        { id: "L2-01", type: "lesson", label: "DESCUBRE", icon: "📦", title: "Cuatro formas de organizar datos", content: `<p>No todos los datos necesitan el mismo contenedor.</p><div class="concept-grid"><div class="concept-item"><strong>[ ]</strong><span>lista · ordenada y modificable</span></div><div class="concept-item"><strong>( )</strong><span>tupla · fija y ordenada</span></div><div class="concept-item"><strong>{ clave: valor }</strong><span>diccionario · consulta por clave</span></div><div class="concept-item"><strong>{ elementos }</strong><span>set · elementos únicos</span></div></div><pre class="code-block"><code>sensores = ["DHT22", "BMP280"]
+coordenada = (10, 25)
+estado = {"activo": True}
+protocolos = {"UART", "I2C"}</code></pre><div class="tip-box">💡 <code>{}</code> crea un diccionario vacío; para un set vacío se usa <code>set()</code>.</div>` },
+        { id: "L2-02", type: "choice", label: "OBSERVA", icon: "🔎", title: "Detective de sintaxis", question: "¿Qué colección representa dato_3?", code: `dato_1 = ["A", "B", "C"]
+dato_2 = ("A", "B", "C")
+dato_3 = {"A", "B", "C"}
+dato_4 = {"nombre": "Ana", "edad": 19}`, options: ["lista", "tupla", "set", "diccionario"], correct: 2, xp: 10, correctFeedback: "Correcto. Sus elementos están entre llaves, no tienen claves y no se repiten.", incorrectFeedback: "Fíjate en los delimitadores y en si hay pares clave: valor." },
+        { id: "L2-03", type: "choice", label: "RESUELVE", icon: "🧭", title: "El contenedor adecuado", question: "Debes registrar los protocolos distintos usados en un laboratorio, sin duplicados. ¿Cuál eliges?", options: ["lista", "tupla", "diccionario", "set"], correct: 3, xp: 10, correctFeedback: "Exacto. Un set comunica que importa la unicidad de cada protocolo.", incorrectFeedback: "Piensa si el mismo protocolo debería poder aparecer dos veces." },
+        { id: "L2-04", type: "listLab", label: "EXPERIMENTA", icon: "⚗️", title: "Inventario del laboratorio", xp: 20, initialItems: ["resistor", "capacitor", "diodo"], steps: [{ action: "append", value: "transistor", instruction: "Llegó un transistor: agrégalo al inventario." }, { action: "remove", value: "diodo", instruction: "El diodo fue retirado: elimínalo." }, { action: "count", instruction: "Comprueba cuántos componentes quedan." }], correctFeedback: "Reparaste el inventario usando append(), remove() y len().", incorrectFeedback: "Esa operación no corresponde con la misión actual." },
+        { id: "L2-05", type: "choice", label: "PREDICE", icon: "🎯", title: "Coordenadas de la lista", question: "¿Qué valor produce sensores[-1]?", code: `sensores = ["DHT22", "BMP280", "DS18B20"]`, options: ["DHT22", "BMP280", "DS18B20", "Error"], correct: 2, xp: 10, correctFeedback: "Sí. El índice -1 accede al último elemento de una lista.", incorrectFeedback: "Los índices negativos recorren la lista desde el final." },
+        { id: "L2-06", type: "choice", label: "CONSULTA", icon: "🗝️", title: "Clave → valor", question: "¿Qué expresión obtiene el valor 24.5?", code: `sensor = {"modelo": "DHT22", "temperatura": 24.5, "humedad": 67}`, options: [`sensor["modelo"]`, `sensor["temperatura"]`, "sensor[1]", "sensor.temperatura"], correct: 1, xp: 10, correctFeedback: "Correcto. En un diccionario se consulta con la clave, no con la posición.", incorrectFeedback: "Busca la clave que está asociada con 24.5." },
+        { id: "L2-07", type: "choice", label: "DEPURA", icon: "🛠️", title: "El conjunto vacío", question: "El programa necesita un set vacío. ¿Qué línea debe usar?", options: ["protocolos = {}", "protocolos = []", "protocolos = set()", "protocolos = ()"], correct: 2, xp: 10, correctFeedback: "Muy bien. {} es un diccionario vacío; set() crea un conjunto vacío.", incorrectFeedback: "Recuerda el caso especial de las llaves vacías en Python." },
+        { id: "L2-08", type: "builder", label: "DEMUESTRA", icon: "🏆", title: "Reconstruye la estación", question: "Construye la estructura que guarda protocolos únicos y añade I2C.", pieces: [{ id: "set", text: `protocolos = {"UART", "SPI"}` }, { id: "add", text: `protocolos.add("I2C")` }, { id: "list", text: `protocolos = ["UART", "SPI"]` }, { id: "append", text: `protocolos.append("I2C")` }], expected: ["set", "add"], xp: 20, correctFeedback: "Misión completada. Elegiste un set para mantener protocolos únicos y usaste add().", incorrectFeedback: "La estructura debe expresar unicidad y la operación debe corresponder a un set." }
     ]
 };
+</script>
