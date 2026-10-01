@@ -1,0 +1,82 @@
+<script>
+LEVEL_CONTENT[8] = {
+    title: "Automatización Industrial: Funciones, Bucles while y Lambda",
+    description: "Domina bucles while, funciones modulares con parámetros por defecto y argumentos variables (*args, **kwargs), y expresiones lambda aplicadas a control industrial, telemetría IoT y sistemas SCADA.",
+    challenges: [
+        { id: "L8-01", type: "lesson", label: "DESCUBRE", icon: "🔁", title: "Bucles while y funciones modulares", content: `<p>A diferencia de <code>for</code>, un bucle <code>while</code> repite mientras una condición siga siendo verdadera, y es ideal para validar datos de sensores hasta que sean correctos.</p><div class="concept-grid"><div class="concept-item"><strong>while</strong><span>Repite mientras la condición sea True</span></div><div class="concept-item"><strong>def ... return</strong><span>Empaqueta lógica en una función reutilizable</span></div><div class="concept-item"><strong>*args / **kwargs</strong><span>Reciben una cantidad variable de datos</span></div><div class="concept-item"><strong>while True + break</strong><span>Repite hasta que una condición interna lo detiene</span></div></div><pre class="code-block"><code>corriente = float(input("Ingrese lectura de corriente (A): "))
+
+while corriente <= 0:
+    print("Error: la corriente debe ser mayor a 0 A.")
+    corriente = float(input("Reintente la lectura (A): "))
+
+print(f"Lectura válida registrada: {corriente} A")</code></pre><div class="tip-box">💡 El programa vuelve a pedir el dato una y otra vez hasta que la condición del while deja de cumplirse.</div>` },
+
+        { id: "L8-03", type: "choice", label: "RESUELVE", icon: "🔋", title: "Calculadora modular de carga de baterías", question: "Este código calcula el porcentaje de carga de un banco de baterías de forma directa, sin reutilizarlo. ¿Cuál versión lo convierte correctamente en una función reutilizable?", code: `nivel_actual = 42.0
+capacidad_max = 50.0
+porcentaje = (nivel_actual / capacidad_max) * 100
+print(f"Carga: {porcentaje}%")`, options: [`def calcular_carga(actual, maximo):
+    print((actual / maximo) * 100)
+
+porcentaje = calcular_carga(42.0, 50.0)`, `def calcular_carga(*actual):
+    return (actual / 50.0) * 100`, `def calcular_carga(actual, maximo):
+    return (actual / maximo) * 100
+
+porcentaje = calcular_carga(42.0, 50.0)`], correct: 2, xp: 10, correctFeedback: "Correcto. return entrega el resultado fuera de la función para poder guardarlo en porcentaje.", incorrectFeedback: "print solo muestra el valor en pantalla, no lo devuelve; y *actual empaqueta los argumentos en una tupla, que no se puede dividir directamente." },
+
+        { id: "L8-15", type: "listLab", label: "PRACTICA", icon: "📋", title: "Registro de voltajes en el concentrador IoT", varName: "voltajes", unit: "lecturas", numeric: true, initialItems: [220, 218, 225], actions: [{ id: "append", label: "voltajes.append(230)", op: "append", value: 230 }, { id: "sort", label: "voltajes.sort()", op: "sort" }, { id: "count", label: "len(voltajes)", op: "count" }], steps: [{ instruction: "Llegó una nueva lectura del sensor: agrégala al final de la lista.", action: "append" }, { instruction: "Ordena las lecturas de menor a mayor para analizarlas.", action: "sort" }, { instruction: "Verifica cuántas lecturas se han registrado en total.", action: "count" }], xp: 20, correctFeedback: "Registro actualizado: *voltajes recibiría estos mismos valores empacados en una tupla dentro de la función.", incorrectFeedback: "Lee la instrucción y elige la operación de lista que produce ese cambio." },
+
+        { id: "L8-05", type: "builder", label: "CONSTRUYE", icon: "🖥️", title: "Consola de control de un rack de servidores", question: "Ordena los bloques para construir una consola que repita en bucle infinito, procese el comando MEDIR y se cierre con SALIR usando break.", pieces: [{ id: "printProcesando", text: `    print("Procesando temperatura del CPU...")` }, { id: "doBreak", text: `        break` }, { id: "printCerrando", text: `        print("Cerrando sesión del sistema...")` }, { id: "startWhile", text: `while True:` }, { id: "ifSalir", text: `    if comando == "SALIR":` }, { id: "readInput", text: `    comando = input("Ingrese comando (MEDIR / SALIR): ").strip().upper()` }], expected: ["startWhile", "readInput", "ifSalir", "printCerrando", "doBreak", "printProcesando"], xp: 20, correctFeedback: "Consola construida: el while True mantiene la sesión activa, el if con break la cierra, y el resto del código sigue atendiendo comandos.", incorrectFeedback: "Primero abre el bucle, luego lee el comando, después revisa si es SALIR (y ahí van el mensaje y el break), y al final el resto del procesamiento." },
+
+                { id: "L8-14", type: "accessLab", label: "EXPERIMENTA", icon: "🔐", title: "Activación segura del relé industrial", prompt: "El relé solo debe activarse con su tiempo por defecto (1.0 s) si está habilitado y no hay ninguna falla detectada. Actívalo y pulsa verificar.", code: `def activar_rele(puerto, tiempo=1.0):
+    print(f"Activando relé {puerto} por {tiempo}s")
+
+if habilitado and not falla_detectada:
+    activar_rele("RELE_03")
+else:
+    print("Relé bloqueado por seguridad")`, toggles: [{ id: "habilitado", label: "Relé habilitado" }, { id: "falla", label: "Falla detectada" }], rule: v => v.habilitado && !v.falla, allowedText: "Resultado: Activando relé RELE_03 por 1.0s.", deniedText: "Resultado: Relé bloqueado por seguridad.", xp: 20, correctFeedback: "El relé arranca con su tiempo por defecto solo cuando está habilitado y no hay falla.", incorrectFeedback: "not invierte falla_detectada: necesitas habilitado en verdadero y falla sin marcar." },
+
+        { id: "L8-08", type: "choice", label: "DEPURA", icon: "🦾", title: "Orden de parámetros en un brazo robótico", question: "Este código de un brazo robótico produce SyntaxError: non-default argument follows default argument. ¿Cuál es la corrección correcta?", code: `def mover_articulacion(base=0.0, hombro=90.0, codo):
+    print(f"Moviendo a: Base={base}, Hombro={hombro}, Codo={codo}")`, options: ["Agregar la palabra optional antes de los valores por defecto.", "def mover_articulacion(codo, base=0.0, hombro=90.0):", "Convertir los parámetros en una tupla fija."], correct: 1, xp: 10, correctFeedback: "Correcto. Los parámetros obligatorios (sin valor por defecto) siempre deben ir antes que los opcionales.", incorrectFeedback: "Python no tiene la palabra optional para parámetros; el orden de los parámetros es lo que debe corregirse." },
+
+        { id: "L8-09", type: "builder", label: "CONSTRUYE", icon: "🧮", title: "Retorno múltiple en el cálculo de potencia", question: "La función solo calcula la potencia. Constrúyela de nuevo para que también calcule la resistencia y devuelva ambos valores como una tupla, y luego úsalos.", pieces: [{ id: "returnBoth", text: `    return potencia, resistencia` }, { id: "callLine", text: `p_activa, r_eq = calcular_metricas(220.0, 10.0)` }, { id: "resistencia", text: `    resistencia = voltaje / corriente` }, { id: "funcDef", text: `def calcular_metricas(voltaje, corriente):` }, { id: "returnOnly", text: `    return potencia` }, { id: "potencia", text: `    potencia = voltaje * corriente` }, { id: "printLine", text: `print(f"Potencia: {p_activa} W | Resistencia: {r_eq} Ω")` }], expected: ["funcDef", "potencia", "resistencia", "returnBoth", "callLine", "printLine"], xp: 20, correctFeedback: "Función refactorizada: return potencia, resistencia entrega una tupla, y la desestructuración p_activa, r_eq la recibe en una sola línea.", incorrectFeedback: "Primero calcula ambos valores dentro de la función, luego devuélvelos juntos con una coma, y por último recíbelos con dos variables separadas por coma." },
+
+        { id: "L8-10", type: "choice", label: "RESUELVE", icon: "🚨", title: "Parámetros nombrados variables en una alarma SCADA", question: "Esta función de alarmas debe aceptar cualquier cantidad de parámetros nombrados dentro de un diccionario. ¿Qué operador completa la definición?", code: `def registrar_alarma(nivel_critico, ________ parametros_extra):
+    print(f"Alarma Nivel: {nivel_critico}")
+    for clave, valor in parametros_extra.items():
+        print(f" - {clave}: {valor}")
+
+registrar_alarma("ALTO", zona="Bodega 3", presion_bar=4.2, operador="Tech_01")`, options: ["**", "*", "&"], correct: 0, xp: 10, correctFeedback: "Correcto. ** empaqueta los argumentos nombrados en un diccionario, por eso luego se puede recorrer con .items().", incorrectFeedback: "* empaqueta argumentos posicionales en una tupla; para argumentos nombrados se necesita **." },
+
+        { id: "L8-11", type: "choice", label: "PREDICE", icon: "🌐", title: "Ámbito de variables: global vs. local", question: "Existe una variable global ESTADO_SISTEMA = \"OK\". ¿Qué palabra reservada se necesita dentro de una función para modificar esa variable global directamente?", options: ["local", "public", "global", "extern"], correct: 2, xp: 10, correctFeedback: "Correcto. global le indica a Python que esa variable pertenece al ámbito global y no a uno nuevo dentro de la función.", incorrectFeedback: "public y extern no existen en Python; local, además, crearía una variable nueva en vez de modificar la global." },
+
+        { id: "L8-13", type: "choice", label: "DEMUESTRA", icon: "🏆", title: "Reporte integrador de una planta IoT", question: "Una función junta *muestras (tupla) y **metadata (diccionario) en un reporte con 'promedio': round(sum(muestras)/len(muestras), 2). Si buffer_muestras termina siendo [12.5, 14.0, 13.2, 15.1], ¿qué valor tendrá reporte['promedio']?", code: `def procesar_planta_iot(nombre_node, *muestras, **metadata):
+    reporte = {
+        "nodo": nombre_node,
+        "total_registros": len(muestras),
+        "promedio": round(sum(muestras) / len(muestras), 2),
+        "detalles": metadata
+    }
+    return reporte`, options: ["54.8", "4", "12.5", "13.7"], correct: 3, xp: 20, correctFeedback: "Misión completada. (12.5 + 14.0 + 13.2 + 15.1) / 4 = 13.7; *muestras las recibió como tupla y round() ajustó el resultado a dos decimales.", incorrectFeedback: "54.8 es la suma sin dividir, y 4 es la cantidad de lecturas (len(muestras)), no el promedio." },
+
+        { id: "L8-16", type: "lesson", label: "DESCUBRE", icon: "λ", title: "Expresiones lambda: funciones de una sola línea", content: `<p>Una <strong>lambda</strong> es una función anónima: no necesita <code>def</code>, no se le pone nombre y no lleva <code>return</code>. Solo puede contener <strong>una expresión</strong>, y el resultado de esa expresión es lo que devuelve.</p><pre class="code-block"><code># Con def, la forma normal de escribir una función
+def cuadrado(x):
+    return x * x
+
+# La misma idea como lambda
+cuadrado = lambda x: x * x
+
+print(cuadrado(5))</code></pre><p>La sintaxis siempre sigue este orden: <code>lambda parámetros: expresión</code>. Sin paréntesis alrededor del parámetro, sin dos puntos antes de <code>lambda</code>, y sin la palabra <code>return</code>.</p><div class="concept-grid"><div class="concept-item"><strong>lambda x: x * 2</strong><span>Duplica un valor</span></div><div class="concept-item"><strong>lambda a, b: a + b</strong><span>Admite varios parámetros</span></div><div class="concept-item"><strong>map(func, lista)</strong><span>Aplica una función a cada elemento</span></div><div class="concept-item"><strong>sorted(lista, key=...)</strong><span>Usa una lambda para decidir el orden</span></div></div><div class="tip-box">💡 Una lambda sirve para funciones cortas y de un solo uso, como escalar una lectura de sensor o definir un criterio de orden. Si la lógica necesita varias líneas, condicionales completos o bucles, se debe usar una función normal con def.</div>` },
+
+        { id: "L8-06", type: "choice", label: "DEPURA", icon: "🎚️", title: "Sintaxis de una expresión lambda para escalar un ADC", question: "Esta lambda debería convertir una lectura ADC (0-1024) a voltaje (0-5V), pero tiene un error de sintaxis. ¿Cuál es la versión correcta?", code: `adc_a_voltios = lambda(raw_adc) -> return (raw_adc / 1024.0) * 5.0`, options: ["adc_a_voltios = lambda raw_adc: (raw_adc / 1024.0) * 5.0", "adc_a_voltios = def lambda(raw_adc): return (raw_adc / 1024.0) * 5.0", "adc_a_voltios = lambda raw_adc return (raw_adc / 1024.0) * 5.0"], correct: 0, xp: 10, correctFeedback: "Correcto. Una lambda usa lambda parametro: expresion, sin paréntesis en el parámetro, sin return y sin flecha de retorno.", incorrectFeedback: "lambda nunca lleva la palabra def ni return; solo necesita dos puntos entre el parámetro y la expresión." },
+
+        { id: "L8-12", type: "choice", label: "RESUELVE", icon: "🌡️", title: "Calibración de sensores con lambda y map", question: "Se necesita sumar un offset de +0.5°C a cada lectura de una lista, de forma compacta con lambda y map. ¿Cuál línea lo hace correctamente?", code: `lecturas = [23.5, 24.1, 22.8]
+
+# Enfoque tradicional con for:
+calibradas = []
+for l in lecturas:
+    calibradas.append(l + 0.5)`, options: ["calibradas = map(lecturas + 0.5)", "calibradas = list(map(lambda temp: temp + 0.5, lecturas))", "calibradas = lecturas.map(lambda temp + 0.5)", "calibradas = list(lambda lecturas: lecturas + 0.5)"], correct: 1, xp: 10, correctFeedback: "Correcto. map aplica la lambda a cada elemento de lecturas, y list() convierte el resultado en una lista.", incorrectFeedback: "map necesita una función y un iterable por separado; las listas no tienen un método .map() en Python." },
+
+        
+    ]
+};
+</script>
