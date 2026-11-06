@@ -1,0 +1,231 @@
+<script>
+LEVEL_CONTENT[12] = {
+    title: "Tkinter: Interfaces Gráficas Industriales",
+    description: "Diseña paneles de supervisión: jerarquía de widgets, Frames, gestores pack y grid, captura de eventos y alertas visuales.",
+    challenges: [
+        {
+            id: "L12-01",
+            type: "lesson",
+            label: "DESCUBRE",
+            icon: "🖥️",
+            title: "Jerarquía de Widgets y la Regla del Contenedor",
+            content: `<p>En Tkinter, una interfaz se construye como un árbol de elementos llamados <strong>Widgets</strong> (botones, campos de entrada, etiquetas). Todo widget debe tener asignado un contenedor <strong>padre (parent)</strong>.</p>
+            <pre class="code-block"><code>import tkinter as tk</code></pre>
+            <pre class="code-block"><code>ventana = tk.Tk()  # Contenedor raíz</code></pre>
+            <pre class="code-block"><code>panel = tk.Frame(ventana, bg="#1E293B")  # El padre de 'panel' es 'ventana'</code></pre>
+            <pre class="code-block"><code>etiqueta = tk.Label(panel, text="Temperatura")  # El padre de 'etiqueta' es 'panel'</code></pre>
+
+            <div class="circuit-diagram">
+                <svg viewBox="0 0 750 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-width:700px;display:block;margin:0 auto;">
+                    <rect x="20" y="20" width="710" height="160" rx="10" fill="none" stroke="#38bdf8" stroke-width="2"/>
+                    <text x="35" y="45" fill="#38bdf8" font-size="14" font-weight="bold">Ventana (tk.Tk) - Padre Raíz [pack]</text>
+                    <rect x="40" y="60" width="320" height="100" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="55" y="85" fill="#f8fafc" font-size="13" font-weight="bold">frame_datos (Frame) [grid]</text>
+                    <rect x="55" y="100" width="130" height="45" rx="5" fill="#0f172a" stroke="#64748b"/>
+                    <text x="120" y="127" text-anchor="middle" fill="#93c5fd" font-size="11">Label (Texto)</text>
+                    <rect x="205" y="100" width="140" height="45" rx="5" fill="#0f172a" stroke="#64748b"/>
+                    <text x="275" y="127" text-anchor="middle" fill="#86efac" font-size="11">Entry (Entrada)</text>
+                    <rect x="380" y="60" width="330" height="100" rx="8" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+                    <text x="395" y="85" fill="#f8fafc" font-size="13" font-weight="bold">frame_estado (Frame) [pack]</text>
+                    <rect x="395" y="100" width="300" height="45" rx="5" fill="#0f172a" stroke="#64748b"/>
+                    <text x="545" y="127" text-anchor="middle" fill="#fbbf24" font-size="11">Label / Progressbar</text>
+                </svg>
+            </div>
+
+            <div class="tip-box">
+                ⚠️ <strong>LA REGLA FUNDAMENTAL:</strong> Mismo padre → Mismo gestor de geometría. Nunca mezcles <code>pack()</code> y <code>grid()</code> en widgets que tengan exactamente el mismo contenedor directo. Puedes usar <code>pack()</code> en la ventana y <code>grid()</code> dentro de un Frame sin conflicto.
+            </div>`
+        },
+        {
+            id: "L12-02",
+            type: "choice",
+            label: "OBSERVA",
+            icon: "📐",
+            title: "Gestores de Geometría: pack vs grid",
+            question: "Observa el siguiente esquema de jerarquía en Tkinter:<br><br><div class='circuit-diagram'><svg viewBox='0 0 600 220' xmlns='http://www.w3.org/2000/svg' style='width:100%;height:auto;max-width:540px;display:block;margin:10px auto;border-radius:8px;background:#0f172a;padding:12px;'><rect x='20' y='15' width='560' height='35' rx='6' fill='#1e293b' stroke='#38bdf8' stroke-width='2'/><text x='300' y='38' text-anchor='middle' fill='#38bdf8' font-size='13' font-weight='bold'>ventana (tk.Tk) — Usa pack()</text><line x1='100' y1='50' x2='100' y2='75' stroke='#94a3b8' stroke-width='2'/><line x1='300' y1='50' x2='300' y2='75' stroke='#94a3b8' stroke-width='2'/><line x1='500' y1='50' x2='500' y2='75' stroke='#94a3b8' stroke-width='2'/><rect x='20' y='75' width='160' height='30' rx='4' fill='#334155'/><text x='100' y='95' text-anchor='middle' fill='#f8fafc' font-size='11'>titulo.pack()</text><rect x='220' y='75' width='160' height='30' rx='4' fill='#334155'/><text x='300' y='95' text-anchor='middle' fill='#f8fafc' font-size='11'>subtitulo.pack()</text><rect x='420' y='75' width='160' height='30' rx='4' fill='#0284c7'/><text x='500' y='95' text-anchor='middle' fill='#f8fafc' font-size='11' font-weight='bold'>frame_datos.pack()</text><line x1='500' y1='105' x2='500' y2='125' stroke='#4ade80' stroke-width='2'/><rect x='380' y='125' width='240' height='80' rx='6' fill='#1e293b' stroke='#4ade80' stroke-width='2'/><text x='500' y='145' text-anchor='middle' fill='#4ade80' font-size='11' font-weight='bold'>Hijos de frame_datos (Usan grid)</text><text x='500' y='165' text-anchor='middle' fill='#94a3b8' font-size='11'>• label.grid(row=0, col=0)</text><text x='500' y='185' text-anchor='middle' fill='#94a3b8' font-size='11'>• entry.grid(row=0, col=1)</text></svg></div><br>¿Por qué se pueden usar <code>pack()</code> y <code>grid()</code> en la misma aplicación sin generar ningún error?",
+            options: [
+                "Porque los widgets organizados con grid() tienen como padre a 'frame_datos', mientras que los organizados con pack() tienen como padre a 'ventana'.",
+                "Porque Tkinter permite mezclar pack() y grid() en el mismo contenedor si son de colores distintos.",
+                "Porque 'ventana' ignora los widgets que están dentro de 'frame_datos'.",
+                "Porque grid() reemplaza automáticamente a pack() en todo el programa."
+            ],
+            correct: 0,
+            xp: 10,
+            correctFeedback: "Correcto. La regla prohíbe mezclar gestores en widgets con el MISMO padre directo. Al usar 'frame_datos' como contenedor intermedio, no hay conflicto.",
+            incorrectFeedback: "Revisa los padres inmediatos en el esquema: los elementos en grid() pertenecen a 'frame_datos', no directamente a 'ventana'."
+        },
+        {
+            id: "L12-03",
+            type: "choice",
+            label: "PREDICE",
+            icon: "👨‍👦",
+            title: "Identificar al Padre de un Widget",
+            question: "Observa la siguiente línea: <code>entrada = tk.Entry(tarjeta, font=('Segoe UI', 12))</code>. ¿Quién es el padre de este Entry y dónde se dibujará?",
+            options: [
+                "El padre es 'ventana' y se dibuja directamente en la pantalla principal.",
+                "El padre es 'tarjeta' (un Frame) y se dibujará dentro del espacio asignado a ese Frame.",
+                "El padre es 'font' y se dibuja según el tipo de letra.",
+                "No tiene padre, es un widget independiente."
+            ],
+            correct: 1,
+            xp: 10,
+            correctFeedback: "Correcto. El primer parámetro al instanciar un widget define a su contenedor padre (en este caso, el Frame llamado 'tarjeta').",
+            incorrectFeedback: "El primer argumento posicional que le pasas al crear cualquier widget en Tkinter es siempre su elemento padre."
+        },
+        {
+            id: "L12-04",
+            type: "builder",
+            label: "CONSTRUYE",
+            icon: "✨",
+            title: "Crear una tarjeta agrupada con Frame",
+            question: "Construye el código para crear un panel de datos en color oscuro (#1E293B) y agregar una etiqueta de 'Temperatura' dentro de él usando pack().",
+            pieces: [
+                { id: "createFrame", text: "tarjeta = tk.Frame(ventana, bg='#1E293B', padx=20)" },
+                { id: "packFrame", text: "tarjeta.pack(fill='x', padx=30, pady=10)" },
+                { id: "createLabel", text: "lbl_temp = tk.Label(tarjeta, text='Temperatura', bg='#1E293B', fg='white')" },
+                { id: "badLabel", text: "lbl_temp = tk.Label(ventana, text='Temperatura')" },
+                { id: "packLabel", text: "lbl_temp.pack(anchor='w')" },
+                { id: "gridLabel", text: "lbl_temp.grid(row=0, column=0)" }
+            ],
+            expected: ["createFrame", "packFrame", "createLabel", "packLabel"],
+            xp: 20,
+            correctFeedback: "¡Excelente! Creaste el Frame, lo empaquetaste en la ventana, y luego creaste la etiqueta asignándole el Frame como padre.",
+            incorrectFeedback: "Asegúrate de asignar 'tarjeta' como padre de lbl_temp y usar pack() en la etiqueta para mantener la consistencia con el contenedor."
+        },
+        {
+            id: "L12-05",
+            type: "choice",
+            label: "RESUELVE",
+            icon: "🔤",
+            title: "Obtener y convertir datos de un Entry",
+            question: "Tienes <code>entrada_temp = tk.Entry(frame)</code>. El usuario escribe <code>65.5</code>. ¿Qué devuelve <code>entrada_temp.get()</code> y cómo lo conviertes a número?",
+            options: [
+                "Devuelve un float 65.5 directamente.",
+                "Devuelve una cadena de texto '65.5'; para operar se debe usar float(entrada_temp.get()).",
+                "Devuelve un número entero 65.",
+                "Devuelve None hasta que se presione la tecla Enter."
+            ],
+            correct: 1,
+            xp: 10,
+            correctFeedback: "Correcto. Igual que input(), el método .get() de un Entry SIEMPRE devuelve un string. Debes convertirlo explícitamente a float o int.",
+            incorrectFeedback: "Los campos de texto Entry de Tkinter devuelven siempre texto ('str'), por lo que requieres usar float() o int() para procesar valores numéricos."
+        },
+        {
+            id: "L12-06",
+            type: "choice",
+            label: "OBSERVA",
+            icon: "🎨",
+            title: "Iconografía y Paneles de Supervisión",
+            question: "Observa el diseño de la interfaz industrial de monitoreo:<br><br><div class='circuit-diagram'><svg viewBox='0 0 600 240' xmlns='http://www.w3.org/2000/svg' style='width:100%;height:auto;max-width:540px;display:block;margin:10px auto;border-radius:8px;background:#0f172a;padding:10px;'><text x='20' y='30' fill='#f8fafc' font-size='16' font-weight='bold'>PANEL DE SUPERVISIÓN</text><rect x='20' y='45' width='260' height='175' rx='6' fill='#1e293b'/><text x='35' y='70' fill='#38bdf8' font-size='12' font-weight='bold'>DATOS DE OPERACIÓN</text><text x='35' y='100' fill='#94a3b8' font-size='11'>Temperatura (°C): [ 78.5 ]</text><text x='35' y='130' fill='#94a3b8' font-size='11'>Producción: [ 100 ]</text><rect x='35' y='160' width='230' height='30' rx='4' fill='#38bdf8'/><text x='150' y='180' text-anchor='middle' fill='#0f172a' font-size='12' font-weight='bold'>ANALIZAR</text><rect x='300' y='45' width='280' height='175' rx='6' fill='#1e293b'/><text x='315' y='70' fill='#f8fafc' font-size='12' font-weight='bold'>ESTADO DEL SISTEMA</text><text x='440' y='120' text-anchor='middle' fill='#ef4444' font-size='24' font-weight='bold'>CRÍTICO</text><rect x='320' y='145' width='240' height='12' rx='6' fill='#334155'/><rect x='320' y='145' width='200' height='12' rx='6' fill='#ef4444'/><text x='440' y='180' text-anchor='middle' fill='#94a3b8' font-size='11'>Cumplimiento: 83.33%</text></svg></div><br>¿Cuál es la función principal de usar colores de acento y significado (como el rojo en CRÍTICO) en el panel derecho?",
+            options: [
+                "Decorar la ventana para que se vea colorida sin un propósito específico.",
+                "Establecer una jerarquía visual clara de alerta: Verde para NORMAL, Amarillo para ADVERTENCIA y Rojo para CRÍTICO.",
+                "Ocultar los datos de entrada al operador.",
+                "Cambiar la resolución del computador."
+            ],
+            correct: 1,
+            xp: 10,
+            correctFeedback: "Correcto. Los colores de acento e indicadores comunican el estado del proceso al operador de un solo vistazo.",
+            incorrectFeedback: "En interfaces industriales, los colores transmiten estados de alerta e indicadores de peligro o normalidad."
+        },
+        {
+            id: "L12-07",
+            type: "accessLab",
+            label: "EXPERIMENTA",
+            icon: "🧪",
+            title: "Evaluación de Estado de Alarma Industrial",
+            prompt: "Simula el procesamiento de lectura de temperatura. Ajusta la temperatura a más de 75°C para validar la transición al estado CRÍTICO.",
+            code: "if temperatura > 75:\n    estado = 'CRÍTICO'\n    color = '#EF4444'\nelif temperatura >= 60:\n    estado = 'ADVERTENCIA'\n    color = '#F59E0B'\nelse:\n    estado = 'NORMAL'\n    color = '#22C55E'",
+            toggles: [
+                { id: "altaTemp", label: "Temperatura > 75°C (Ej. 82°C)" },
+                { id: "modoAlarma", label: "Activar ventana emergente (messagebox.showwarning)" }
+            ],
+            rule: v => v.altaTemp && v.modoAlarma,
+            goal: v => v.altaTemp && v.modoAlarma,
+            allowedText: "Sistema en estado CRÍTICO: Se actualiza el Label a rojo (#EF4444) y se dispara la alerta visual.",
+            deniedText: "Sistema en estado Normal/Advertencia: Incrementa la temperatura por encima del umbral seguro (75°C).",
+            xp: 20,
+            correctFeedback: "¡Excelente! Has configurado la respuesta ante condiciones de peligro en el panel.",
+            incorrectFeedback: "Activa la casilla de 'Temperatura > 75°C' y el disparador de 'messagebox' para pasar el reto."
+        },
+        {
+            id: "L12-08",
+            type: "choice",
+            label: "RESUELVE",
+            icon: "⌨️",
+            title: "Conectar la Tecla Enter con bind()",
+            question: "Para ejecutar la función `analizar()` tanto al hacer clic en el botón como al presionar la tecla Enter en un Entry: ¿Por qué la función se define como `def analizar(event=None):`?",
+            options: [
+                "Porque event=None deshabilita los eventos de teclado.",
+                "Porque command no envía ningún argumento, mientras que bind() envía un objeto 'event'. El parámetro por defecto evita errores de firma.",
+                "Porque Tkinter exige que todas las funciones tengan ese parámetro obligatoriamente.",
+                "Para limpiar los campos de texto automáticamente."
+            ],
+            correct: 1,
+            xp: 15,
+            correctFeedback: "Correcto. 'command=analizar' llama a la función sin parámetros, mientras que 'bind(\"<Return>\", analizar)' le pasa el objeto del evento. 'event=None' permite que acepte ambos llamados.",
+            incorrectFeedback: "Revisa la diferencia entre command (sin argumentos) y bind (pasa argumento de evento)."
+        },
+        {
+            id: "L12-09",
+            type: "listLab",
+            label: "PRACTICA",
+            icon: "📋",
+            title: "Simular la Limpieza de un Formulario",
+            varName: "campos_formulario",
+            unit: "valores en pantalla",
+            numeric: false,
+            initialItems: ["Temp: 80.0", "Prod: 100", "Estado: CRÍTICO"],
+            actions: [
+                { id: "delTemp", label: "entrada_temp.delete(0, tk.END)", op: "remove", value: "Temp: 80.0" },
+                { id: "delProd", label: "entrada_prod.delete(0, tk.END)", op: "remove", value: "Prod: 100" },
+                { id: "resetState", label: "label_estado.config(text='SIN DATOS')", op: "remove", value: "Estado: CRÍTICO" }
+            ],
+            steps: [
+                { instruction: "Limpia la entrada de datos de temperatura borrando desde la posición 0 hasta tk.END.", action: "delTemp" },
+                { instruction: "Limpia la entrada de producción.", action: "delProd" },
+                { instruction: "Restablece la etiqueta de estado a 'SIN DATOS'.", action: "resetState" }
+            ],
+            xp: 20,
+            correctFeedback: "Formulario restablecido: delete(0, tk.END) limpia de punta a punta un Entry, dejando la interfaz lista para una nueva lectura.",
+            incorrectFeedback: "Ejecuta las acciones de limpieza en el orden indicado para resetear el formulario."
+        },
+        {
+            id: "L12-10",
+            type: "builder",
+            label: "CONSTRUYE",
+            icon: "🧱",
+            title: "Estructura del Formulario con grid()",
+            question: "Organiza las líneas para posicionar una etiqueta en la columna 0 y su respectivo Entry en la columna 1 aprovechando el ancho mediante sticky='ew'.",
+            pieces: [
+                { id: "cfgCol", text: "frame_datos.columnconfigure(1, weight=1)" },
+                { id: "lblGrid", text: "lbl_temp.grid(row=1, column=0, sticky='w', pady=7)" },
+                { id: "entGrid", text: "ent_temp.grid(row=1, column=1, sticky='ew', padx=10, ipady=5)" },
+                { id: "badGrid", text: "ent_temp.pack(side='right')" }
+            ],
+            expected: ["cfgCol", "lblGrid", "entGrid"],
+            xp: 25,
+            correctFeedback: "¡Perfecto! La columna 1 se expandirá (weight=1) y el Entry ocupará todo el ancho de su celda (sticky='ew').",
+            incorrectFeedback: "Configura primero el peso de la columna 1, luego coloca la etiqueta en la col 0 y el Entry en la col 1."
+        },
+        {
+            id: "L12-11",
+            type: "choice",
+            label: "DEMUESTRA",
+            icon: "🏆",
+            title: "Validación de Entradas Incorrectas",
+            question: "Si el usuario deja un campo Entry vacío e intenta presionar 'ANALIZAR':<br><br><div class='circuit-diagram'><svg viewBox='0 0 500 140' xmlns='http://www.w3.org/2000/svg' style='width:100%;height:auto;max-width:440px;display:block;margin:10px auto;border-radius:8px;background:#0f172a;padding:12px;'><rect x='15' y='15' width='470' height='110' rx='8' fill='#1e293b' stroke='#ef4444' stroke-width='2'/><text x='35' y='42' fill='#ef4444' font-size='13' font-weight='bold'>❌ messagebox.showerror('Datos inválidos')</text><text x='35' y='70' fill='#f8fafc' font-size='12' font-family='monospace'>try:</text><text x='65' y='90' fill='#94a3b8' font-size='12' font-family='monospace'>temp = float(entrada_temp.get())</text><text x='35' y='110' fill='#ef4444' font-size='12' font-family='monospace'>except ValueError: # Evita colapsar</text></svg></div><br>¿Qué bloque de código previene que el programa se cierre abruptamente por un error de tipo ValueError?",
+            options: [
+                "Un bloque try-except ValueError que captura el fallo de conversión float() y muestra un messagebox.showerror().",
+                "Un bucle while True que congela la ventana.",
+                "Usar el método .destroy() para reiniciar la interfaz.",
+                "No se puede prevenir, el programa siempre se cierra."
+            ],
+            correct: 0,
+            xp: 20,
+            correctFeedback: "Misión Completada. Encapsular float(entrada.get()) dentro de un try-except asegura que la aplicación no colapse ante entradas inválidas.",
+            incorrectFeedback: "La conversión de texto a número debe protegerse siempre con try-except ValueError en aplicaciones de interfaz gráfica."
+        }
+    ]
+};
+</script>
